@@ -1,0 +1,38 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'org.akhikhl.gretty'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.akhikhl.gretty:gretty:+'
+    }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+gretty {
+    contextPath = 'shop-web'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    // Java EE
+    compile group: 'javax', name: 'javaee-api', version: '7.0'
+
+    // Tests
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.5.3'
+    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: '3.5.3'
+}

@@ -1,5 +1,3 @@
-package view;
-
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -10,17 +8,15 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class RegisterTest {
     private WebDriver driver;
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "/Users/.../web3pers/chromedriver");
-        // windows: gebruik dubbele \\ om pad aan te geven
-        // hint: zoek een werkende test op van web 2 ...
-        driver = new ChromeDriver();
+        System.setProperty("webdriver.gecko.driver", "C:\\Webdriver\\geckodriver.exe");
+        driver = new FirefoxDriver();
         driver.get("http://localhost:8080/shop-web/Controller?action=signUp");
     }
 

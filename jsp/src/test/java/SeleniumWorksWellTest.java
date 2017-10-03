@@ -1,5 +1,3 @@
-package view;
-
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -8,16 +6,15 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class SeleniumWorksWellTest {
     private WebDriver driver;
 
     @Before
     public void setUp() throws Exception {
-        // windows: gebruik dubbele \\ om pad aan te geven
-        // hint: zoek een werkende test op van web 2 ...
-        driver = new ChromeDriver();
+        System.setProperty("webdriver.gecko.driver", "C:\\Webdriver\\geckodriver.exe");
+        driver = new FirefoxDriver();
         driver.get("https://nl.wikipedia.org/wiki/Hoofdpagina");
     }
 
@@ -40,9 +37,9 @@ public class SeleniumWorksWellTest {
         WebElement link = driver.findElement(By.id("searchButton"));
         link.click();
 
-        assertEquals("Seleen - Wikipedia", driver.getTitle());
+        assertEquals("Selenium - Wikipedia", driver.getTitle());
 
-        assertEquals("Seleen", driver.findElement(By.tagName("h1")).getText());
+        assertEquals("Selenium", driver.findElement(By.tagName("h1")).getText());
 
     }
 

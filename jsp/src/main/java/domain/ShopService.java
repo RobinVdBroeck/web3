@@ -2,10 +2,10 @@ package domain;
 
 import java.util.List;
 
-import db.PersonDbInMemory;
+import db.PersonDatabaseInMemory;
 
 public class ShopService {
-    private PersonDbInMemory personDb = new PersonDbInMemory();
+    private PersonDatabaseInMemory personDb = new PersonDatabaseInMemory();
 
     public ShopService() {
     }
@@ -30,7 +30,7 @@ public class ShopService {
         getPersonDb().delete(id);
     }
 
-    private PersonDbInMemory getPersonDb() {
+    private PersonDatabaseInMemory getPersonDb() {
         return personDb;
     }
 }

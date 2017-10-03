@@ -7,25 +7,28 @@ import java.util.Map;
 
 import domain.Product;
 
-public class ProductDbInMemory {
+public class ProductDatabaseInMemory implements ProductDatabase {
     private Map<Integer, Product> records = new HashMap<Integer, Product>();
 
-    public ProductDbInMemory() {
+    public ProductDatabaseInMemory() {
         Product rose = new Product("Rose", "Thorny plant", 2.25);
         add(rose);
     }
 
-    public Product get(int id) {
+    @Override
+    public Product get(Integer id) {
         if (id < 0) {
             throw new DbException("No valid id given");
         }
         return records.get(id);
     }
 
+    @Override
     public List<Product> getAll() {
         return new ArrayList<Product>(records.values());
     }
 
+    @Override
     public void add(Product product) {
         if (product == null) {
             throw new DbException("No product given");
@@ -38,6 +41,7 @@ public class ProductDbInMemory {
         records.put(product.getProductId(), product);
     }
 
+    @Override
     public void update(Product product) {
         if (product == null) {
             throw new DbException("No product given");
@@ -48,7 +52,8 @@ public class ProductDbInMemory {
         records.put(product.getProductId(), product);
     }
 
-    public void delete(int id) {
+    @Override
+    public void delete(Integer id) {
         if (id < 0) {
             throw new DbException("No valid id given");
         }

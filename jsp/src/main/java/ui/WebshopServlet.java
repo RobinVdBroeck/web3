@@ -1,9 +1,6 @@
 package ui;
 
-import db.PersonDatabase;
-import db.PersonDatabaseInMemory;
-import db.ProductDatabase;
-import db.ProductDatabaseInMemory;
+import domain.ShopService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,12 +12,10 @@ import java.io.IOException;
 
 @WebServlet("/Controller")
 public class WebshopServlet extends HttpServlet {
-    private final ProductDatabase productDatabase;
-    private final PersonDatabase personDatabase;
+    private final ShopService shopService;
 
     public WebshopServlet() {
-        productDatabase = new ProductDatabaseInMemory();
-        personDatabase = new PersonDatabaseInMemory();
+        shopService = new ShopService();
     }
 
     @Override
@@ -47,7 +42,7 @@ public class WebshopServlet extends HttpServlet {
 
     private void overview(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         final RequestDispatcher dispatcher = req.getRequestDispatcher("personoverview.jsp");
-        req.setAttribute("users", personDatabase.getAll());
+        req.setAttribute("users", shopService.getPersons());
         dispatcher.forward(req, res);
     }
 

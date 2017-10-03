@@ -1,3 +1,5 @@
+<%@ page import="domain.Person" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,11 +31,16 @@
                 <th>First Name</th>
                 <th>Last Name</th>
             </tr>
+            <% for (Person user : (List<Person>) request.getAttribute("users")) { %>
             <tr>
-                <td>jan.janssens@hotmail.com</td>
-                <td>Jan</td>
-                <td>Janssens</td>
+                <td><%= user.getEmail() %>
+                </td>
+                <td><%= user.getFirstName() %>
+                </td>
+                <td><%= user.getLastName() %>
+                </td>
             </tr>
+            <% } %>
 
             <caption>Users Overview</caption>
         </table>

@@ -47,6 +47,7 @@ public class WebshopServlet extends HttpServlet {
 
     private void overview(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         final RequestDispatcher dispatcher = req.getRequestDispatcher("personoverview.jsp");
+        req.setAttribute("users", personDatabase.getAll());
         dispatcher.forward(req, res);
     }
 

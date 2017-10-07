@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -22,9 +22,9 @@
             </ul>
         </nav>
         <h2>Home</h2>
-
     </header>
-    <main> Sed ut perspiciatis unde omnis iste natus error sit
+    <main>
+        Sed ut perspiciatis unde omnis iste natus error sit
         voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque
         ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
         dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit

@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,41 +27,36 @@
 
     </header>
     <main>
-        <%
-            String error = (String) request.getAttribute("error");
-            if (error != null) {
-        %>
-        <div class="alert-danger">
-            <ul>
-                <li><%=error%>
-                </li>
-            </ul>
-        </div>
-        <%}%>
+        <c:if test="${error != null}">
+            <div class="alert-danger">
+                <ul>
+                    <li>${error}
+                    </li>
+                </ul>
+            </div>
+        </c:if>
 
         <form method="post" action="" novalidate="novalidate">
             <!-- novalidate in order to be able to run tests correctly -->
             <p>
                 <label for="userid">User id</label>
-                <input type="text" id="userid" name="userid" value="<%=request.getParameter("userid")%>" required>
+                <input type="text" id="userid" name="userid" value="${userid}" required>
             </p>
             <p>
                 <label for="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" value="<%=request.getParameter("firstName")%>"
-                       required>
+                <input type="text" id="firstName" name="firstName" value="${firstName}" required>
             </p>
             <p>
                 <label for="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" value="<%=request.getParameter("lastName")%>" required>
+                <input type="text" id="lastName" name="lastName" value="${lastName}" required>
             </p>
             <p>
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" value="<%=request.getParameter("email")%>" required>
+                <input type="email" id="email" name="email" value="${email}" required>
             </p>
             <p>
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" value="<%=request.getParameter("password")%>"
-                       required>
+                <input type="password" id="password" name="password" value="${password}" required>
             </p>
             <p>
                 <input type="submit" id="signUp" value="Sign Up">

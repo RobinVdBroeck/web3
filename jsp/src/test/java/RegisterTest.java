@@ -221,10 +221,10 @@ public class RegisterTest {
     public void testAllFieldsEmptyWhenNothingEntered() {
         driver.get("http://localhost:8080/shop-web/Controller?action=signUp");
 
-        List<WebElement> fields = driver.findElements(By.cssSelector("form p input"));
+        List<WebElement> fields = driver.findElements(By.cssSelector("form p input:not(:last-child)"));
 
         fields.stream()
             .map(element -> element.getAttribute("value"))
-            .forEach(value -> assertTrue(value.isEmpty()));
+            .forEach(value -> assertEquals("", value));
     }
 }

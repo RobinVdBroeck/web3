@@ -39,10 +39,11 @@ public class WebshopServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         final String userid = req.getParameter("userid");
-        final String firstName = req.getParameter("firstName");
-        final String lastName = req.getParameter("lastName");
         final String email = req.getParameter("email");
         final String password = req.getParameter("password");
+        final String firstName = req.getParameter("firstName");
+        final String lastName = req.getParameter("lastName");
+
 
         try {
             final Person newUser = new Person(userid, email, password, firstName, lastName);
@@ -50,6 +51,11 @@ public class WebshopServlet extends HttpServlet {
         } catch (IllegalArgumentException | DbException e) {
             final RequestDispatcher dispatcher = req.getRequestDispatcher("signUp.jsp");
             req.setAttribute("error", e.getMessage());
+            req.setAttribute("userid", userid);
+            req.setAttribute("email", email);
+            req.setAttribute("password", password);
+            req.setAttribute("firstName", firstName);
+            req.setAttribute("lastName", lastName);
             dispatcher.forward(req, res);
         }
 

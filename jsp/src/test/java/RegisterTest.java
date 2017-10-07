@@ -1,7 +1,3 @@
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +5,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class RegisterTest {
     private WebDriver driver;
@@ -58,13 +59,11 @@ public class RegisterTest {
 
         driver.get("http://localhost:8080/shop-web/Controller?action=overview");
 
-        ArrayList<WebElement> listItems = (ArrayList<WebElement>) driver.findElements(By.cssSelector("table tr"));
-        boolean found = false;
-        for (WebElement listItem : listItems) {
-            if (listItem.getText().contains("jan.janssens@hotmail.com") && listItem.getText().contains(" Jan Janssens")) {
-                found = true;
-            }
-        }
+        List<WebElement> listItems = driver.findElements(By.cssSelector("table tr"));
+        boolean found = listItems.stream()
+            .map(WebElement::getText)
+            .anyMatch(text -> text.contains("jan.janssens@hotmail.com") && text.contains("Jan Janssens"));
+
         assertEquals(true, found);
 
     }
@@ -165,8 +164,6 @@ public class RegisterTest {
 
         WebElement fieldEmail = driver.findElement(By.id("email"));
         assertEquals("", fieldEmail.getAttribute("value"));
-
-
     }
 
 
@@ -218,6 +215,16 @@ public class RegisterTest {
 
         WebElement fieldEmail = driver.findElement(By.id("email"));
         assertEquals("pieter.pieters@hotmail.com", fieldEmail.getAttribute("value"));
+    }
 
+    @Test
+    public void testAllFieldsEmptyWhenNothingEntered() {
+        driver.get("http://localhost:8080/shop-web/Controller?action=signUp");
+
+        List<WebElement> fields = driver.findElements(By.cssSelector("form p input"));
+
+        fields.stream()
+            .map(element -> element.getAttribute("value"))
+            .forEach(value -> assertTrue(value.isEmpty()));
     }
 }

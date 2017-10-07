@@ -1,5 +1,7 @@
 package ui;
 
+import db.DbException;
+import domain.Person;
 import domain.ShopService;
 
 import javax.servlet.RequestDispatcher;
@@ -33,6 +35,26 @@ public class WebshopServlet extends HttpServlet {
                     break;
             }
         }
+    }
+
+    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        final String userid = req.getParameter("userid");
+        final String firstName = req.getParameter("firstName");
+        final String lastName = req.getParameter("lastName");
+        final String email = req.getParameter("email");
+        final String password = req.getParameter("password");
+
+        try {
+            final Person newUser = new Person(userid, email, password, firstName, lastName);
+            shopService.addPerson(newUser);
+        } catch (IllegalArgumentException | DbException e) {
+            final RequestDispatcher dispatcher = req.getRequestDispatcher("signUp.jsp");
+            req.setAttribute("error", e.getMessage());
+            dispatcher.forward(req, res);
+        }
+
+        final RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
+        dispatcher.forward(req, res);
     }
 
     private void index(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

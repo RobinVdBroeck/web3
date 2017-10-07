@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -25,25 +25,45 @@
 
     </header>
     <main>
+        <%
+            String error = (String) request.getAttribute("error");
+            if (error != null) {
+        %>
         <div class="alert-danger">
             <ul>
-                <li>Some error</li>
+                <li><%=error%>
+                </li>
             </ul>
         </div>
+        <%}%>
 
         <form method="post" action="" novalidate="novalidate">
             <!-- novalidate in order to be able to run tests correctly -->
-            <p><label for="userid">User id</label><input type="text" id="userid" name="userid"
-                                                         required value=""></p>
-            <p><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"
-                                                               required value=""></p>
-            <p><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"
-                                                             required value=""></p>
-            <p><label for="email">Email</label><input type="email" id="email" name="email" required value=""></p>
-            <p><label for="password">Password</label><input type="password" id="password" name="password"
-                                                            required></p>
-            <p><input type="submit" id="signUp" value="Sign Up"></p>
-
+            <p>
+                <label for="userid">User id</label>
+                <input type="text" id="userid" name="userid" value="<%=request.getParameter("userid")%>" required>
+            </p>
+            <p>
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" value="<%=request.getParameter("firstName")%>"
+                       required>
+            </p>
+            <p>
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" value="<%=request.getParameter("lastName")%>" required>
+            </p>
+            <p>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="<%=request.getParameter("email")%>" required>
+            </p>
+            <p>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" value="<%=request.getParameter("password")%>"
+                       required>
+            </p>
+            <p>
+                <input type="submit" id="signUp" value="Sign Up">
+            </p>
         </form>
     </main>
     <footer>

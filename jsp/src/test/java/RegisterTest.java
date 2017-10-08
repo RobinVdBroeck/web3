@@ -2,22 +2,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
-public class RegisterTest {
-    private WebDriver driver;
-
+public class RegisterTest extends SeleniumTest {
     @Before
     public void setUp() {
-        System.setProperty("webdriver.gecko.driver", "C:\\Webdriver\\geckodriver.exe");
-        driver = new FirefoxDriver();
         driver.get("http://localhost:8080/shop-web/Controller?action=signUp");
     }
 
@@ -57,7 +50,7 @@ public class RegisterTest {
         String title = driver.getTitle();
         assertEquals("Home", title);
 
-        driver.get("http://localhost:8080/shop-web/Controller?action=overview");
+        driver.get("http://localhost:8080/shop-web/Controller?action=users");
 
         List<WebElement> listItems = driver.findElements(By.cssSelector("table tr"));
         boolean found = listItems.stream()

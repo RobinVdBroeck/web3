@@ -1,20 +1,14 @@
-import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class SeleniumWorksWellTest {
-    private WebDriver driver;
+import static org.junit.Assert.assertEquals;
 
+public class SeleniumWorksWellTest extends SeleniumTest {
     @Before
-    public void setUp() throws Exception {
-        System.setProperty("webdriver.gecko.driver", "C:\\Webdriver\\geckodriver.exe");
-        driver = new FirefoxDriver();
+    public void setUp() {
         driver.get("https://nl.wikipedia.org/wiki/Hoofdpagina");
     }
 

@@ -2,11 +2,14 @@ package domain;
 
 import db.PersonDatabase;
 import db.PersonDatabaseInMemory;
+import db.ProductDatabase;
+import db.ProductDatabaseInMemory;
 
 import java.util.List;
 
 public class ShopService {
     final private PersonDatabase personDb = new PersonDatabaseInMemory();
+    final private ProductDatabase productDb = new ProductDatabaseInMemory();
 
     public ShopService() {
     }
@@ -31,7 +34,15 @@ public class ShopService {
         getPersonDb().delete(id);
     }
 
+    public List<Product> getProducts() {
+        return getProductDb().getAll();
+    }
+
     private PersonDatabase getPersonDb() {
         return personDb;
+    }
+
+    private ProductDatabase getProductDb() {
+        return productDb;
     }
 }

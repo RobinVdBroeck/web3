@@ -27,8 +27,11 @@ public class WebshopServlet extends HttpServlet {
             index(req, res);
         } else {
             switch (action) {
-                case "overview":
-                    overview(req, res);
+                case "users":
+                    users(req, res);
+                    break;
+                case "products":
+                    products(req, res);
                     break;
                 case "signUp":
                     signUp(req, res);
@@ -68,9 +71,15 @@ public class WebshopServlet extends HttpServlet {
         dispatcher.forward(req, res);
     }
 
-    private void overview(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        final RequestDispatcher dispatcher = req.getRequestDispatcher("personoverview.jsp");
+    private void users(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        final RequestDispatcher dispatcher = req.getRequestDispatcher("users.jsp");
         req.setAttribute("users", shopService.getPersons());
+        dispatcher.forward(req, res);
+    }
+
+    private void products(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        final RequestDispatcher dispatcher = req.getRequestDispatcher("products.jsp");
+        req.setAttribute("products", shopService.getProducts());
         dispatcher.forward(req, res);
     }
 
@@ -78,4 +87,5 @@ public class WebshopServlet extends HttpServlet {
         final RequestDispatcher dispatcher = req.getRequestDispatcher("signUp.jsp");
         dispatcher.forward(req, res);
     }
+
 }

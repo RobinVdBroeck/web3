@@ -212,8 +212,6 @@ public class RegisterTest extends SeleniumTest {
 
     @Test
     public void testAllFieldsEmptyWhenNothingEntered() {
-        driver.get("http://localhost:8080/shop-web/Controller?action=signUp");
-
         List<WebElement> fields = driver.findElements(By.cssSelector("form p input:not(:last-child)"));
 
         fields.stream()

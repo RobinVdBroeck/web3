@@ -18,6 +18,7 @@
                 <li><a href="Controller">Home</a></li>
                 <li id="actual"><a href="Controller?action=users">Users</a></li>
                 <li><a href="Controller?action=products">Products</a></li>
+                <li><a href="Controller?action=addProduct">Add Product</a></li>
                 <li><a href="Controller?action=signUp">Sign up</a></li>
             </ul>
         </nav>

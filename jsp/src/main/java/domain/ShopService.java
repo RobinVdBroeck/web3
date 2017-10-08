@@ -38,6 +38,8 @@ public class ShopService {
         return getProductDb().getAll();
     }
 
+    public void addProduct(Product product) { getProductDb().add(product); }
+
     private PersonDatabase getPersonDb() {
         return personDb;
     }

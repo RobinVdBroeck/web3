@@ -1,13 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta charset="UTF-8">
-    <title>Sign Up</title>
+    <title>Product Overview</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
@@ -19,12 +18,12 @@
                 <li><a href="Controller">Home</a></li>
                 <li><a href="Controller?action=users">Users</a></li>
                 <li><a href="Controller?action=products">Products</a></li>
-                <li><a href="Controller?action=addProduct">Add Product</a></li>
-                <li id="actual"><a href="Controller?action=signUp">Sign up</a></li>
+                <li id="actual"><a href="Controller?action=addProduct">Add Product</a></li>
+                <li><a href="Controller?action=signUp">Sign up</a></li>
             </ul>
         </nav>
         <h2>
-            Sign Up
+            Add Product
         </h2>
 
     </header>
@@ -38,30 +37,21 @@
             </div>
         </c:if>
 
-        <form method="post" action="" novalidate="novalidate">
-            <!-- novalidate in order to be able to run tests correctly -->
+        <form method="post" action="Controller?action=addProduct" novalidate="novalidate">
             <p>
-                <label for="userid">User id</label>
-                <input type="text" id="userid" name="userid" value="${userid}" required>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" value="${name}" required>
             </p>
             <p>
-                <label for="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" value="${firstName}" required>
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description" value="${description}" required>
             </p>
             <p>
-                <label for="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" value="${lastName}" required>
+                <label for="price">Price (in euros)</label>
+                <input type="number" min="0" step="0.01" id="price" name="price" value="${price}" required>
             </p>
             <p>
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" value="${email}" required>
-            </p>
-            <p>
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" value="${password}" required>
-            </p>
-            <p>
-                <input type="submit" id="signUp" value="Sign Up">
+                <input type="submit" value="Add"/>
             </p>
         </form>
     </main>

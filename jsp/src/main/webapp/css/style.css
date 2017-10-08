@@ -194,7 +194,7 @@ input {
         margin-right: 10px;
     }
 
-    input[type="text"], input[type="email"], input[type="password"], textarea {
+    input[type="text"], input[type="email"], input[type="password"], input[type="number"], textarea {
         width: 400px;
     }
 

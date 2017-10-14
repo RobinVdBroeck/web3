@@ -133,6 +133,6 @@ public class WebshopServlet extends HttpServlet {
             addProductGet(req, res);
         }
 
-        index(req, res);
+        products(req, res);
     }
 }

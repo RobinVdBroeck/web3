@@ -1,30 +1,24 @@
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import io.github.bonigarcia.SeleniumExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SeleniumWorksWellTest extends SeleniumTest {
-    @Before
-    public void setUp() {
-        driver.get("https://nl.wikipedia.org/wiki/Hoofdpagina");
-    }
-
-
-    @After
-    public void clean() {
-        driver.quit();
-    }
-
+@ExtendWith(SeleniumExtension.class)
+public class SeleniumWorksWellTest {
     @Test
-    public void browserVindtWikipedia() {
+    public void browserVindtWikipedia(ChromeDriver driver) {
+        driver.get("https://nl.wikipedia.org/wiki/Hoofdpagina");
         assertEquals("Wikipedia, de vrije encyclopedie", driver.getTitle());
     }
 
     @Test
-    public void wikipediaVindtSelenium() {
+    public void wikipediaVindtSelenium(ChromeDriver driver) {
+        driver.get("https://nl.wikipedia.org/wiki/Hoofdpagina");
+
         WebElement field = driver.findElement(By.id("searchInput"));
         field.clear();
         field.sendKeys("selenium");

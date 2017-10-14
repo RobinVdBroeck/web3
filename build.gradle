@@ -2,23 +2,32 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'war'
 apply plugin: 'org.akhikhl.gretty'
+apply plugin: 'org.junit.platform.gradle.plugin'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 buildscript {
+    ext {
+        junitPlatformVersion = '1.0.1'
+    }
     repositories {
         jcenter()
     }
 
     dependencies {
         classpath 'org.akhikhl.gretty:gretty:+'
+        classpath "org.junit.platform:junit-platform-gradle-plugin:${junitPlatformVersion}"
     }
 }
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+ext {
+    junitJupiterVersion  = '5.0.0'
+    seleniumJupiterVersion  = '1.1.0'
+}
 
 gretty {
     contextPath = 'shop-web'
@@ -30,13 +39,13 @@ repositories {
 
 dependencies {
     // Java EE
-    compile group: 'javax', name: 'javaee-api', version: '7.0'
-    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+    compile "javax:javaee-api:7.0"
+    compile "javax.servlet:jstl:1.2"
 
     // Tests
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.5.3'
-    testCompile group:'io.github.bonigarcia', name: 'webdrivermanager', version:'1.7.2'
+    testCompile "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
+    testCompile "io.github.bonigarcia:selenium-jupiter:${seleniumJupiterVersion}"
 }
 
 

@@ -1,41 +1,37 @@
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import io.github.bonigarcia.SeleniumExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class RegisterTest extends SeleniumTest {
-    @Before
-    public void setUp() {
-        driver.get("http://localhost:8080/shop-web/Controller?action=signUp");
-    }
+@ExtendWith(SeleniumExtension.class)
+public class RegisterTest {
+    private final static String signUp = "http://localhost:8080/shop-web/Controller?action=signUp";
+    private final static String users = "http://localhost:8080/shop-web/Controller?action=users";
 
-    @After
-    public void clean() {
-        driver.quit();
-    }
 
     private String generateRandomUseridInOrderToRunTestMoreThanOnce(String component) {
         int random = (int) (Math.random() * 1000 + 1);
         return random + component;
     }
 
-    private void fillOutField(String name, String value) {
+    private void fillOutField(ChromeDriver driver, String name, String value) {
         WebElement field = driver.findElement(By.id(name));
         field.clear();
         field.sendKeys(value);
     }
 
-    private void submitForm(String userid, String firstName, String lastName, String email, String password) {
-        fillOutField("userid", userid);
-        fillOutField("firstName", firstName);
-        fillOutField("lastName", lastName);
-        fillOutField("email", email);
-        fillOutField("password", password);
+    private void submitForm(ChromeDriver driver, String userid, String firstName, String lastName, String email, String password) {
+        fillOutField(driver, "userid", userid);
+        fillOutField(driver, "firstName", firstName);
+        fillOutField(driver, "lastName", lastName);
+        fillOutField(driver, "email", email);
+        fillOutField(driver, "password", password);
 
         WebElement button = driver.findElement(By.id("signUp"));
         button.click();
@@ -43,14 +39,16 @@ public class RegisterTest extends SeleniumTest {
 
 
     @Test
-    public void testRegisterCorrect() {
+    public void testRegisterCorrect(ChromeDriver driver) {
+        driver.get(signUp);
+
         String useridRandom = generateRandomUseridInOrderToRunTestMoreThanOnce("jakke");
-        submitForm(useridRandom, "Jan", "Janssens", "jan.janssens@hotmail.com", "1234");
+        submitForm(driver, useridRandom, "Jan", "Janssens", "jan.janssens@hotmail.com", "1234");
 
         String title = driver.getTitle();
         assertEquals("Home", title);
 
-        driver.get("http://localhost:8080/shop-web/Controller?action=users");
+        driver.get(users);
 
         List<WebElement> listItems = driver.findElements(By.cssSelector("table tr"));
         boolean found = listItems.stream()
@@ -62,8 +60,10 @@ public class RegisterTest extends SeleniumTest {
     }
 
     @Test
-    public void testRegisterUseridEmpty() {
-        submitForm("", "Jan", "Janssens", "jan.janssens@hotmail.com", "1234");
+    public void testRegisterUseridEmpty(ChromeDriver driver) {
+        driver.get(signUp);
+
+        submitForm(driver, "", "Jan", "Janssens", "jan.janssens@hotmail.com", "1234");
 
         String title = driver.getTitle();
         assertEquals("Sign Up", title);
@@ -87,8 +87,10 @@ public class RegisterTest extends SeleniumTest {
     }
 
     @Test
-    public void testRegisterFirstNameEmpty() {
-        submitForm("jakke", "", "Janssens", "jan.janssens@hotmail.com", "1234");
+    public void testRegisterFirstNameEmpty(ChromeDriver driver) {
+        driver.get(signUp);
+
+        submitForm(driver, "jakke", "", "Janssens", "jan.janssens@hotmail.com", "1234");
 
         String title = driver.getTitle();
         assertEquals("Sign Up", title);
@@ -112,8 +114,9 @@ public class RegisterTest extends SeleniumTest {
     }
 
     @Test
-    public void testRegisterLastNameEmpty() {
-        submitForm("jakke", "Jan", "", "jan.janssens@hotmail.com", "1234");
+    public void tSelestRegisterLastNameEmpty(ChromeDriver driver) {
+        driver.get(signUp);
+        submitForm(driver, "jakke", "Jan", "", "jan.janssens@hotmail.com", "1234");
 
         String title = driver.getTitle();
         assertEquals("Sign Up", title);
@@ -137,8 +140,10 @@ public class RegisterTest extends SeleniumTest {
     }
 
     @Test
-    public void testRegisterEmailEmpty() {
-        submitForm("jakke", "Jan", "Janssens", "", "1234");
+    public void testRegisterEmailEmpty(ChromeDriver driver) {
+        driver.get(signUp);
+
+        submitForm(driver, "jakke", "Jan", "Janssens", "", "1234");
 
         String title = driver.getTitle();
         assertEquals("Sign Up", title);
@@ -161,8 +166,10 @@ public class RegisterTest extends SeleniumTest {
 
 
     @Test
-    public void testRegisterPasswordEmpty() {
-        submitForm("jakke", "Jan", "Janssens", "jan.janssens@hotmail.com", "");
+    public void testRegisterPasswordEmpty(ChromeDriver driver) {
+        driver.get(signUp);
+
+        submitForm(driver, "jakke", "Jan", "Janssens", "jan.janssens@hotmail.com", "");
 
         String title = driver.getTitle();
         assertEquals("Sign Up", title);
@@ -186,13 +193,14 @@ public class RegisterTest extends SeleniumTest {
     }
 
     @Test
-    public void testRegisterUserAlreadyExists() {
+    public void testRegisterUserAlreadyExists(ChromeDriver driver) {
+        driver.get(signUp);
+
         String useridRandom = generateRandomUseridInOrderToRunTestMoreThanOnce("pierke");
-        submitForm(useridRandom, "Pieter", "Pieters", "pieter.pieters@hotmail.com", "1234");
+        submitForm(driver, useridRandom, "Pieter", "Pieters", "pieter.pieters@hotmail.com", "1234");
 
-        driver.get("http://localhost:8080/shop-web/Controller?action=signUp");
-
-        submitForm(useridRandom, "Pieter", "Pieters", "pieter.pieters@hotmail.com", "1234");
+        driver.get(signUp);
+        submitForm(driver, useridRandom, "Pieter", "Pieters", "pieter.pieters@hotmail.com", "1234");
 
         WebElement errorMsg = driver.findElement(By.cssSelector("div.alert-danger ul li"));
         assertEquals("User already exists", errorMsg.getText());
@@ -211,7 +219,9 @@ public class RegisterTest extends SeleniumTest {
     }
 
     @Test
-    public void testAllFieldsEmptyWhenNothingEntered() {
+    public void testAllFieldsEmptyWhenNothingEntered(ChromeDriver driver) {
+        driver.get(signUp);
+
         List<WebElement> fields = driver.findElements(By.cssSelector("form p input:not(:last-child)"));
 
         fields.stream()

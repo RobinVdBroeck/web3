@@ -73,13 +73,13 @@ public class ProductTest {
         Assertions.assertEquals("No name given", errorMsg.getText());
 
         WebElement nameField = driver.findElement(By.name("name"));
-        Assertions.assertEquals(name, nameField.getText());
+        Assertions.assertEquals(name, nameField.getAttribute("value"));
 
         WebElement descriptionField = driver.findElement(By.name("description"));
-        Assertions.assertEquals(description, descriptionField.getText());
+        Assertions.assertEquals(description, descriptionField.getAttribute("value"));
 
         WebElement priceField = driver.findElement(By.name("price"));
-        Assertions.assertEquals(price, priceField.getText());
+        Assertions.assertEquals(price, priceField.getAttribute("value"));
     }
 
     @Test
@@ -96,13 +96,13 @@ public class ProductTest {
         Assertions.assertEquals("No description given", errorMsg.getText());
 
         WebElement nameField = driver.findElement(By.name("name"));
-        Assertions.assertEquals(name, nameField.getText());
+        Assertions.assertEquals(name, nameField.getAttribute("value"));
 
         WebElement descriptionField = driver.findElement(By.name("description"));
-        Assertions.assertEquals(description, descriptionField.getText());
+        Assertions.assertEquals(description, descriptionField.getAttribute("value"));
 
         WebElement priceField = driver.findElement(By.name("price"));
-        Assertions.assertEquals(price, priceField.getText());
+        Assertions.assertEquals(price, priceField.getAttribute("value"));
     }
 
     @Test
@@ -116,15 +116,15 @@ public class ProductTest {
         submitForm(driver, name, description, price);
 
         WebElement errorMsg = driver.findElement(By.cssSelector("div.alert-danger ul li"));
-        Assertions.assertEquals("No price given", errorMsg.getText());
+        Assertions.assertEquals("Price cannot be empty", errorMsg.getText());
 
         WebElement nameField = driver.findElement(By.name("name"));
-        Assertions.assertEquals(name, nameField.getText());
+        Assertions.assertEquals(name, nameField.getAttribute("value"));
 
         WebElement descriptionField = driver.findElement(By.name("description"));
-        Assertions.assertEquals(description, descriptionField.getText());
+        Assertions.assertEquals(description, descriptionField.getAttribute("value"));
 
         WebElement priceField = driver.findElement(By.name("price"));
-        Assertions.assertEquals(price, priceField.getText());
+        Assertions.assertEquals(price, priceField.getAttribute("value"));
     }
 }

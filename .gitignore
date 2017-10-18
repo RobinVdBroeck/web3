@@ -6,3 +6,6 @@ target/
 *.ipr
 *.iws
 .idea/
+
+#
+.env

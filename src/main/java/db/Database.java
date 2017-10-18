@@ -5,7 +5,7 @@ import java.util.List;
 interface Database<K,V> {
     V get(K id);
     List<V> getAll();
-    void add(V product);
-    void update(V product);
+    void add(V value);
+    void update(V value);
     void delete(K id);
 }

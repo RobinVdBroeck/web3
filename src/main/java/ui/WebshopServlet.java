@@ -1,5 +1,6 @@
 package ui;
 
+import com.github.shyiko.dotenv.DotEnv;
 import db.DbException;
 import domain.DomainException;
 import domain.Person;
@@ -13,13 +14,40 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Map;
+import java.util.Properties;
 
 @WebServlet("/Controller")
 public class WebshopServlet extends HttpServlet {
+    private final Connection connection;
     private final ShopService shopService;
 
-    public WebshopServlet() {
+
+    public WebshopServlet() throws SQLException {
         shopService = new ShopService();
+
+        // Create the connection
+        Map<String, String> env = DotEnv.load();
+        Properties properties = new Properties();
+        String url = "jdbc:postgresql://gegevensbanken.khleuven.be:51617/2TX31?currentSchema=r0653517_web3";
+        properties.setProperty("user", env.getOrDefault("DB_USERNAME", "rxxxxxx"));
+        properties.setProperty("password", env.getOrDefault("DB_PASSWORD", "example"));
+        properties.setProperty("ssl", "true");
+        properties.setProperty("sslfactory", "org.postgresql.ssl.NonValidatingFactory");
+        connection = DriverManager.getConnection(url, properties);
+    }
+
+    @Override
+    public void destroy() {
+        try {
+            connection.close();
+            super.destroy();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -119,13 +147,13 @@ public class WebshopServlet extends HttpServlet {
         final String priceString = req.getParameter("price");
 
         try {
-            if(priceString.isEmpty()) {
+            if (priceString.isEmpty()) {
                 throw new DomainException("Price cannot be empty");
             }
             final double price = Double.parseDouble(priceString);
             final Product newProduct = new Product(name, description, price);
             shopService.addProduct(newProduct);
-        } catch(NumberFormatException | DomainException | DbException e) {
+        } catch (NumberFormatException | DomainException | DbException e) {
             req.setAttribute("error", e.getMessage());
             req.setAttribute("name", name);
             req.setAttribute("description", description);

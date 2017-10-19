@@ -1,6 +1,5 @@
 package ui;
 
-import com.github.shyiko.dotenv.DotEnv;
 import db.DbException;
 import domain.DomainException;
 import domain.Person;
@@ -17,27 +16,33 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Map;
 import java.util.Properties;
+
+import static db.Configuration.*;
 
 @WebServlet("/Controller")
 public class WebshopServlet extends HttpServlet {
-    private final Connection connection;
-    private final ShopService shopService;
+    private Connection connection;
+    private ShopService shopService;
 
-
-    public WebshopServlet() throws SQLException {
+    @Override
+    public void init() {
         shopService = new ShopService();
 
         // Create the connection
-        Map<String, String> env = DotEnv.load();
         Properties properties = new Properties();
         String url = "jdbc:postgresql://gegevensbanken.khleuven.be:51617/2TX31?currentSchema=r0653517_web3";
-        properties.setProperty("user", env.getOrDefault("DB_USERNAME", "rxxxxxx"));
-        properties.setProperty("password", env.getOrDefault("DB_PASSWORD", "example"));
+        properties.setProperty("user", DB_USERNAME);
+        properties.setProperty("password", DB_PASSWORD);
         properties.setProperty("ssl", "true");
         properties.setProperty("sslfactory", "org.postgresql.ssl.NonValidatingFactory");
-        connection = DriverManager.getConnection(url, properties);
+
+        try {
+            connection = DriverManager.getConnection(url, properties);
+        } catch (SQLException e) {
+            throw new DbException(e);
+        }
+
     }
 
     @Override
@@ -69,6 +74,9 @@ public class WebshopServlet extends HttpServlet {
                 case "signUp":
                     signUpGet(req, res);
                     break;
+                case "updateProduct":
+                    updateProductGet(req, res);
+                    break;
             }
         }
     }
@@ -87,9 +95,13 @@ public class WebshopServlet extends HttpServlet {
                 case "addProduct":
                     addProductPost(req, res);
                     break;
+                case "updateProduct":
+                    updateProductPost(req, res);
+                    break;
             }
         }
     }
+
 
     private void index(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         final RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
@@ -160,6 +172,32 @@ public class WebshopServlet extends HttpServlet {
             req.setAttribute("price", priceString);
             addProductGet(req, res);
         }
+
+        products(req, res);
+    }
+
+    private void updateProductGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        final String id = req.getParameter("id");
+        final Product product = shopService.getProduct(Integer.parseInt(id));
+        req.setAttribute("product", product);
+
+        final RequestDispatcher dispatcher = req.getRequestDispatcher("updateProduct.jsp");
+        dispatcher.forward(req, res);
+    }
+
+    private void updateProductPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        // Get the parameters
+        final String name = req.getParameter("name");
+        final String description = req.getParameter("description");
+        final String priceString = req.getParameter("price");
+        final String id = req.getParameter("id");
+
+        // Create a new product
+        final Product product = new Product(name, description, Double.parseDouble(priceString));
+        product.setId(Integer.parseInt(id));
+
+        // Update the product in the database
+        shopService.updateProduct(product);
 
         products(req, res);
     }

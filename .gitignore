@@ -7,5 +7,5 @@ target/
 *.iws
 .idea/
 
-#
-.env
+# Configuration settings
+src/main/java/db/Configuration.java

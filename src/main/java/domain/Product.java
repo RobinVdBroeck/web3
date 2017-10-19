@@ -1,19 +1,12 @@
 package domain;
 
 public class Product {
-    private int productId;
+    private int id;
     private String name;
     private String description;
     private double price;
 
     public Product() {
-    }
-
-    public Product(int productId, String name, String description, double d) {
-        setProductId(productId);
-        setName(name);
-        setDescription(description);
-        setPrice(d);
     }
 
     public Product(String name, String description, double d) {
@@ -22,12 +15,12 @@ public class Product {
         setPrice(d);
     }
 
-    public int getProductId() {
-        return productId;
+    public int getId() {
+        return id;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -62,13 +55,6 @@ public class Product {
             throw new DomainException("Give a valid price");
         }
         this.price = price;
-    }
-
-    public void setPrice(String price) {
-        if (price.isEmpty()) {
-            throw new DomainException("No price given");
-        }
-        setPrice(Double.valueOf(price));
     }
 
     @Override

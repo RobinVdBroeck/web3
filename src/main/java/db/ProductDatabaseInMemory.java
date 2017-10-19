@@ -8,11 +8,12 @@ import java.util.Map;
 import domain.Product;
 
 public class ProductDatabaseInMemory implements ProductDatabase {
-    private Map<Integer, Product> records = new HashMap<Integer, Product>();
+    private Map<Integer, Product> records = new HashMap<>();
+    private int idCounter = 0;
+
 
     public ProductDatabaseInMemory() {
-        Product rose = new Product("Rose", "Thorny plant", 2.25);
-        add(rose);
+        add(new Product("Rose", "Thorny plant", 2.25));
     }
 
     @Override
@@ -20,12 +21,15 @@ public class ProductDatabaseInMemory implements ProductDatabase {
         if (id < 0) {
             throw new DbException("No valid id given");
         }
+        if (!records.containsKey(id)) {
+            throw new DbException("No product found");
+        }
         return records.get(id);
     }
 
     @Override
     public List<Product> getAll() {
-        return new ArrayList<Product>(records.values());
+        return new ArrayList<>(records.values());
     }
 
     @Override
@@ -33,12 +37,9 @@ public class ProductDatabaseInMemory implements ProductDatabase {
         if (product == null) {
             throw new DbException("No product given");
         }
-        int id = records.size() + 1;
-        product.setProductId(id);
-        if (records.containsKey(product.getProductId())) {
-            throw new DbException("Product already exists");
-        }
-        records.put(product.getProductId(), product);
+        final int id = generateNextID();
+        product.setId(id);
+        records.put(id, product);
     }
 
     @Override
@@ -46,10 +47,10 @@ public class ProductDatabaseInMemory implements ProductDatabase {
         if (product == null) {
             throw new DbException("No product given");
         }
-        if (!records.containsKey(product.getProductId())) {
+        if (!records.containsKey(product.getId())) {
             throw new DbException("No product found");
         }
-        records.put(product.getProductId(), product);
+        records.put(product.getId(), product);
     }
 
     @Override
@@ -57,6 +58,13 @@ public class ProductDatabaseInMemory implements ProductDatabase {
         if (id < 0) {
             throw new DbException("No valid id given");
         }
+        if (!records.containsKey(id)) {
+            throw new DbException("No product found");
+        }
         records.remove(id);
+    }
+
+    private int generateNextID() {
+        return idCounter++;
     }
 }

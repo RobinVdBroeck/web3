@@ -25,7 +25,7 @@ public class PersonDatabaseInMemory implements PersonDatabase {
 
     @Override
     public List<Person> getAll() {
-        return new ArrayList<Person>(persons.values());
+        return new ArrayList<>(persons.values());
     }
 
     @Override

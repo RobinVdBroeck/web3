@@ -34,11 +34,21 @@ public class ShopService {
         getPersonDb().delete(id);
     }
 
+    public Product getProduct(int id) {
+        return getProductDb().get(id);
+    }
+
     public List<Product> getProducts() {
         return getProductDb().getAll();
     }
 
-    public void addProduct(Product product) { getProductDb().add(product); }
+    public void addProduct(Product product) {
+        getProductDb().add(product);
+    }
+
+    public void updateProduct(Product product) {
+        getProductDb().update(product);
+    }
 
     private PersonDatabase getPersonDb() {
         return personDb;

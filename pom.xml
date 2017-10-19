@@ -53,18 +53,11 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.1.4</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.shyiko.dotenv</groupId>
-            <artifactId>dotenv</artifactId>
-            <version>0.1.1</version>
-        </dependency>
-
 
         <!-- Junit and selenium -->
         <dependency>

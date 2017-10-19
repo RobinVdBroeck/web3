@@ -1,17 +1,22 @@
 package domain;
 
-import db.PersonDatabase;
-import db.PersonDatabaseInMemory;
-import db.ProductDatabase;
-import db.ProductDatabaseInMemory;
+import db.*;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class ShopService {
-    final private PersonDatabase personDb = new PersonDatabaseInMemory();
-    final private ProductDatabase productDb = new ProductDatabaseInMemory();
+    final private PersonDatabase personDb;
+    final private ProductDatabase productDb;
 
     public ShopService() {
+        personDb = new PersonDatabaseInMemory();
+        productDb = new ProductDatabaseInMemory();
+    }
+
+    public ShopService(Connection connection) {
+        personDb = new PersonDatabasePostgres(connection);
+        productDb = new ProductDatabaseInMemory();
     }
 
     public Person getPerson(String personId) {

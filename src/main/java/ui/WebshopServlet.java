@@ -27,8 +27,6 @@ public class WebshopServlet extends HttpServlet {
 
     @Override
     public void init() {
-        shopService = new ShopService();
-
         // Create the connection
         Properties properties = new Properties();
         String url = "jdbc:postgresql://gegevensbanken.khleuven.be:51617/2TX31?currentSchema=r0653517_web3";
@@ -43,6 +41,7 @@ public class WebshopServlet extends HttpServlet {
             throw new DbException(e);
         }
 
+        shopService = new ShopService(connection);
     }
 
     @Override

@@ -11,8 +11,7 @@ import java.util.stream.Collectors;
 
 @ExtendWith(SeleniumExtension.class)
 public class ProductTest {
-    private final String addUrl = "http://localhost:8080/shop-web/Controller?action=addProduct";
-    private final String overviewUrl = "http://localhost:8080/shop-web/Controller?action=products";
+    private static final String addUrl = "http://localhost:8080/shop-web/Controller?action=addProduct";
 
     private void filloutField(WebDriver driver, String name, String value) {
         WebElement field = driver.findElement(By.id(name));

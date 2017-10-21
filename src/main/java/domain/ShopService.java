@@ -16,7 +16,7 @@ public class ShopService {
 
     public ShopService(Connection connection) {
         personDb = new PersonDatabasePostgres(connection);
-        productDb = new ProductDatabaseInMemory();
+        productDb = new ProductDatabasePostgres(connection);
     }
 
     public Person getPerson(String personId) {

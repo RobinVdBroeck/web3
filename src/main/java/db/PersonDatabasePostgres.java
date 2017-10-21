@@ -1,7 +1,6 @@
 package db;
 
 import domain.Person;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.*;
 import java.util.ArrayList;

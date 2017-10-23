@@ -28,6 +28,7 @@
 
     </header>
     <main>
+        <a href="Controller?action=products&sorted">Sorteer</a>
         <table>
             <tr>
                 <th>Name</th>

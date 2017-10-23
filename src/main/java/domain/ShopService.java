@@ -47,6 +47,8 @@ public class ShopService {
         return getProductDb().getAll();
     }
 
+    public List<Product> getProductsSorted() { return getProductDb().getAllSorted(); }
+
     public void addProduct(Product product) {
         getProductDb().add(product);
     }

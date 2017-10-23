@@ -53,6 +53,20 @@ public class ProductDatabasePostgres implements ProductDatabase {
         }
     }
 
+    //@Override
+    public List<Product> getAllSorted() {
+        List<Product> people = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet result = statement.executeQuery("SELECT * FROM product ORDER BY name");
+            while (result.next()) {
+                people.add(createProductFromResultSet(result));
+            }
+            return people;
+        } catch (SQLException e) {
+            throw new DbException(e);
+        }
+    }
+
     @Override
     public void add(Product product) {
         try (PreparedStatement statement = connection.prepareStatement("INSERT INTO product(name, description, price) VALUES(?,?,?)")) {

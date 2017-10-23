@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 
 import static db.Configuration.*;
@@ -115,7 +116,13 @@ public class WebshopServlet extends HttpServlet {
 
     private void products(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         final RequestDispatcher dispatcher = req.getRequestDispatcher("products.jsp");
-        req.setAttribute("products", shopService.getProducts());
+        List<Product> products;
+        if(req.getParameter("sorted") == null) {
+            products = shopService.getProducts();
+        } else {
+            products = shopService.getProductsSorted();
+        }
+        req.setAttribute("products", products);
         dispatcher.forward(req, res);
     }
 

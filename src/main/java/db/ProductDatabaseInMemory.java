@@ -67,4 +67,9 @@ public class ProductDatabaseInMemory implements ProductDatabase {
     private int generateNextID() {
         return idCounter++;
     }
+
+    @Override
+    public List<Product> getAllSorted() {
+        return null;
+    }
 }

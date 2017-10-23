@@ -31,7 +31,7 @@ public class ProductDatabasePostgres implements ProductDatabase {
             statement.setInt(1, id);
             ResultSet result = statement.executeQuery();
             if (!result.next()) {
-                throw new DbException("No user with user_id " + id + "found");
+                throw new DbException("No product with id " + id + " found");
             }
             return createProductFromResultSet(result);
         } catch (SQLException e) {
@@ -55,11 +55,10 @@ public class ProductDatabasePostgres implements ProductDatabase {
 
     @Override
     public void add(Product product) {
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO product VALUES(?,?,?,?)")) {
-            statement.setInt(1, product.getId());
-            statement.setString(2, product.getName());
-            statement.setString(3, product.getDescription());
-            statement.setDouble(4, product.getPrice());
+        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO product(name, description, price) VALUES(?,?,?)")) {
+            statement.setString(1, product.getName());
+            statement.setString(2, product.getDescription());
+            statement.setDouble(3, product.getPrice());
             statement.execute();
         } catch (SQLException e) {
             throw new DbException(e);

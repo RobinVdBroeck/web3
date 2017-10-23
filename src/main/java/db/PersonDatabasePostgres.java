@@ -2,6 +2,7 @@ package db;
 
 import domain.Person;
 
+import javax.validation.constraints.NotNull;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,16 @@ public class PersonDatabasePostgres implements PersonDatabase {
 
     @Override
     public void add(Person person) {
+        try(PreparedStatement statement = connection.prepareStatement("SELECT count(*) = 1 as exists FROM person WHERE user_id = ?")) {
+            statement.setString(1, person.getUserid());
+            ResultSet result = statement.executeQuery();
+            result.next();
+            boolean exists = result.getBoolean("exists");
+            if(exists) throw new DbException("User already exists");
+        } catch (SQLException e) {
+            throw new DbException(e);
+        }
+
         try (PreparedStatement statement = connection.prepareStatement("INSERT INTO person VALUES(?,?,?,?,?)")) {
             statement.setString(1, person.getUserid());
             statement.setString(2, person.getEmail());

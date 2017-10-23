@@ -29,7 +29,7 @@ public class WebshopServlet extends HttpServlet {
     public void init() {
         // Create the connection
         Properties properties = new Properties();
-        String url = "jdbc:postgresql://gegevensbanken.khleuven.be:51617/2TX31?currentSchema=r0653517_web3";
+        String url = "jdbc:postgresql://gegevensbanken.khleuven.be:51617/2TX31?currentSchema=r0653517_test";
         properties.setProperty("user", DB_USERNAME);
         properties.setProperty("password", DB_PASSWORD);
         properties.setProperty("ssl", "true");

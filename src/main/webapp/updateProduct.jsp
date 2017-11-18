@@ -11,25 +11,12 @@
 </head>
 <body>
 <div id="container">
-    <header>
-        <h1><span>Web Shop</span></h1>
-        <nav>
-            <ul>
-                <li><a href="Controller">Home</a></li>
-                <li><a href="Controller?action=users">Users</a></li>
-                <li id="actual" ><a href="Controller?action=products">Products</a></li>
-                <li><a href="Controller?action=addProduct">Add Product</a></li>
-                <li><a href="Controller?action=signUp">Sign up</a></li>
-            </ul>
-        </nav>
-        <h2>
-            Update product
-        </h2>
-
-    </header>
+    <jsp:include page="top.jsp">
+        <jsp:param name="page" value="Update Product"/>
+    </jsp:include>
     <main>
         <form method="post" action="Controller?action=updateProduct" novalidate="novalidate">
-            <input type="hidden" name="id" value="${product.id}" />
+            <input type="hidden" name="id" value="${product.id}"/>
             <p>
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name" value="${product.name}" required>

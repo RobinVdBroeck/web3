@@ -12,22 +12,9 @@
 </head>
 <body>
 <div id="container">
-    <header>
-        <h1><span>Web shop</span></h1>
-        <nav>
-            <ul>
-                <li><a href="Controller">Home</a></li>
-                <li><a href="Controller?action=users">Users</a></li>
-                <li><a href="Controller?action=products">Products</a></li>
-                <li><a href="Controller?action=addProduct">Add Product</a></li>
-                <li id="actual"><a href="Controller?action=signUp">Sign up</a></li>
-            </ul>
-        </nav>
-        <h2>
-            Sign Up
-        </h2>
-
-    </header>
+    <jsp:include page="top.jsp">
+        <jsp:param name="page" value="Sign Up"/>
+    </jsp:include>
     <main>
         <c:if test="${error != null}">
             <div class="alert-danger">

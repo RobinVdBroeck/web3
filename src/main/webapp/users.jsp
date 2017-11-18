@@ -11,20 +11,9 @@
 </head>
 <body>
 <div id="container">
-    <header>
-        <h1><span>Web shop</span></h1>
-        <nav>
-            <ul>
-                <li><a href="Controller">Home</a></li>
-                <li id="actual"><a href="Controller?action=users">Users</a></li>
-                <li><a href="Controller?action=products">Products</a></li>
-                <li><a href="Controller?action=addProduct">Add Product</a></li>
-                <li><a href="Controller?action=signUp">Sign up</a></li>
-            </ul>
-        </nav>
-        <h2>
-            User Overview
-        </h2>
+    <jsp:include page="top.jsp">
+        <jsp:param name="page" value="User Overview"/>
+    </jsp:include>
 
     </header>
     <main>

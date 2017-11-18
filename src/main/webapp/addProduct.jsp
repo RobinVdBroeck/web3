@@ -27,15 +27,17 @@
         <form method="post" action="Controller?action=addProduct" novalidate="novalidate">
             <p>
                 <label for="name">Name</label>
-                <input type="text" id="name" name="name" value="${name}" required>
+                <input type="text" id="name" name="name" value="<c:out value="${name}"/>" required/>
             </p>
             <p>
                 <label for="description">Description</label>
-                <input type="text" id="description" name="description" value="${description}" required>
+                <input type="text" id="description" name="description" value="<c:out value="${description}"/>"
+                       required/>
             </p>
             <p>
                 <label for="price">Price (in euros)</label>
-                <input type="number" min="0" step="0.01" id="price" name="price" value="${price}" required>
+                <input type="number" min="0" step="0.01" id="price" name="price" value="<c:out value="${price}"/>"
+                       required/>
             </p>
             <p>
                 <input type="submit" value="Add"/>

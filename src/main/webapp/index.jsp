@@ -11,7 +11,7 @@
 <body>
 <div id="container">
     <jsp:include page="top.jsp">
-        <jsp:param name="page" value="Home" />
+        <jsp:param name="page" value="Home"/>
     </jsp:include>
     <main>
         Sed ut perspiciatis unde omnis iste natus error sit

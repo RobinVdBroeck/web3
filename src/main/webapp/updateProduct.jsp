@@ -16,18 +16,20 @@
     </jsp:include>
     <main>
         <form method="post" action="Controller?action=updateProduct" novalidate="novalidate">
-            <input type="hidden" name="id" value="${product.id}"/>
+            <input type="hidden" name="id" value="<c:out value="${product.id}"/>"/>
             <p>
                 <label for="name">Name</label>
-                <input type="text" id="name" name="name" value="${product.name}" required>
+                <input type="text" id="name" name="name" value="<c:out value="${product.name}"/>" required>
             </p>
             <p>
                 <label for="description">Description</label>
-                <input type="text" id="description" name="description" value="${product.description}" required>
+                <input type="text" id="description" name="description" value="<c:out value="${product.description}"/>"
+                       required>
             </p>
             <p>
                 <label for="price">Price (in euros)</label>
-                <input type="number" min="0" step="0.01" id="price" name="price" value="${product.price}" required>
+                <input type="number" min="0" step="0.01" id="price" name="price"
+                       value="<c:out value="${product.price}" />" required>
             </p>
             <p>
                 <input type="submit" value="Save"/>

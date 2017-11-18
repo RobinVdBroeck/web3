@@ -19,7 +19,8 @@
         <c:if test="${error != null}">
             <div class="alert-danger">
                 <ul>
-                    <li>${error}
+                    <li>
+                        <c:out value="${error}"/>
                     </li>
                 </ul>
             </div>
@@ -29,23 +30,23 @@
             <!-- novalidate in order to be able to run tests correctly -->
             <p>
                 <label for="userid">User id</label>
-                <input type="text" id="userid" name="userid" value="${userid}" required>
+                <input type="text" id="userid" name="userid" value=" <c:out value="${userid}"/>" required>
             </p>
             <p>
                 <label for="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" value="${firstName}" required>
+                <input type="text" id="firstName" name="firstName" value=" <c:out value="${firstName}"/>" required>
             </p>
             <p>
                 <label for="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" value="${lastName}" required>
+                <input type="text" id="lastName" name="lastName" value=" <c:out value="${lastName}"/>" required>
             </p>
             <p>
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" value="${email}" required>
+                <input type="email" id="email" name="email" value="<c:out value="${email}"/>" required>
             </p>
             <p>
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" value="${password}" required>
+                <input type="password" id="password" name="password" value="<c:out value="${password}"/>" required>
             </p>
             <p>
                 <input type="submit" id="signUp" value="Sign Up">

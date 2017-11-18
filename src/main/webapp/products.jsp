@@ -12,7 +12,7 @@
 <body>
 <div id="container">
     <jsp:include page="top.jsp">
-        <jsp:param name="page" value="Product overview" />
+        <jsp:param name="page" value="Product overview"/>
     </jsp:include>
     <main>
         <table>
@@ -23,9 +23,17 @@
             </tr>
             <c:forEach var="product" items="${products}">
                 <tr>
-                    <td><a href="Controller?action=updateProduct&id=${product.id}">${product.name}</a></td>
-                    <td>${product.description}</td>
-                    <td>${product.price}</td>
+                    <td>
+                        <a href="Controller?action=updateProduct&id=<c:out value="${product.id}" />">
+                            <c:out value="${product.name}"/>
+                        </a>
+                    </td>
+                    <td>
+                        <c:out value="${product.description}"/>
+                    </td>
+                    <td>
+                        <c:out value="${product.price}"/>
+                    </td>
                 </tr>
             </c:forEach>
 

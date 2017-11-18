@@ -25,9 +25,15 @@
             </tr>
             <c:forEach var="user" items="${users}">
                 <tr>
-                    <td>${user.email}</td>
-                    <td>${user.firstName}</td>
-                    <td>${user.lastName}</td>
+                    <td>
+                        <c:out value="${user.email}"/>
+                    </td>
+                    <td>
+                        <c:out value="${user.firstname}"/>
+                    </td>
+                    <td>
+                        <c:out value="${user.lastname}"/>
+                    </td>
                 </tr>
             </c:forEach>
 

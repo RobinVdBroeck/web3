@@ -17,7 +17,7 @@ public class PersonDatabasePostgres implements PersonDatabase {
     private Person createPersonFromResultset(ResultSet result) throws SQLException {
         Person person = new Person();
         person.setUserid(result.getString("user_id"));
-        person.setPassword(result.getString("password"));
+        person.setPassword(result.getString("password"), true); // Set the password as already hashed
         person.setEmail(result.getString("email"));
         person.setFirstName(result.getString("first_name"));
         person.setLastName(result.getString("last_name"));

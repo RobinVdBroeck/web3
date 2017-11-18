@@ -29,10 +29,10 @@
                         <c:out value="${user.email}"/>
                     </td>
                     <td>
-                        <c:out value="${user.firstname}"/>
+                        <c:out value="${user.firstName}"/>
                     </td>
                     <td>
-                        <c:out value="${user.lastname}"/>
+                        <c:out value="${user.lastName}"/>
                     </td>
                 </tr>
             </c:forEach>

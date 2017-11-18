@@ -29,11 +29,12 @@ public class ProductDatabasePostgres implements ProductDatabase {
         }
         try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM product WHERE id = ?")) {
             statement.setInt(1, id);
-            ResultSet result = statement.executeQuery();
-            if (!result.next()) {
-                throw new DbException("No product with id " + id + " found");
+            try (ResultSet result = statement.executeQuery()) {
+                if (!result.next()) {
+                    throw new DbException("No product with id " + id + " found");
+                }
+                return createProductFromResultSet(result);
             }
-            return createProductFromResultSet(result);
         } catch (SQLException e) {
             throw new DbException(e);
         }
@@ -42,8 +43,8 @@ public class ProductDatabasePostgres implements ProductDatabase {
     @Override
     public List<Product> getAll() {
         List<Product> people = new ArrayList<>();
-        try (Statement statement = connection.createStatement()) {
-            ResultSet result = statement.executeQuery("SELECT * FROM product");
+        try (Statement statement = connection.createStatement();
+             ResultSet result = statement.executeQuery("SELECT * FROM product")) {
             while (result.next()) {
                 people.add(createProductFromResultSet(result));
             }

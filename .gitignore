@@ -8,4 +8,4 @@ target/
 .idea/
 
 # Configuration settings
-src/main/java/db/Configuration.java
+src/main/webapp/WEB-INF/web.xml

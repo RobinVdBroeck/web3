@@ -7,6 +7,7 @@ import domain.Product;
 import domain.ShopService;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,9 +17,9 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
-
-import static db.Configuration.*;
 
 @WebServlet("/Controller")
 public class WebshopServlet extends HttpServlet {
@@ -26,21 +27,31 @@ public class WebshopServlet extends HttpServlet {
     private ShopService shopService;
 
     @Override
-    public void init() {
-        // Create the connection
-        Properties properties = new Properties();
-        String url = "jdbc:postgresql://gegevensbanken.khleuven.be:51617/2TX31?currentSchema=r0653517_test";
-        properties.setProperty("user", DB_USERNAME);
-        properties.setProperty("password", DB_PASSWORD);
-        properties.setProperty("ssl", "true");
-        properties.setProperty("sslfactory", "org.postgresql.ssl.NonValidatingFactory");
+    public void init() throws ServletException {
+        super.init();
 
+        // Set up the properties
+        ServletContext context = getServletContext();
+        Properties properties = new Properties();
+
+        // Load the properties from web.xml
+        List<String> keys = Arrays.asList("user", "password", "ssl", "sslfactory", "url");
+        for(String key : keys) {
+            String value = context.getInitParameter(key);
+            if(value == null) {
+                throw new DomainException("Property with name " + key + " does not exist");
+            }
+            properties.setProperty(key, value);
+        }
+
+        // Create the connection
         try {
-            connection = DriverManager.getConnection(url, properties);
+            connection = DriverManager.getConnection(properties.getProperty("url"), properties);
         } catch (SQLException e) {
             throw new DbException(e);
         }
 
+        // Create the service
         shopService = new ShopService(connection);
     }
 

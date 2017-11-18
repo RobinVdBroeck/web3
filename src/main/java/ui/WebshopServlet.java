@@ -35,7 +35,7 @@ public class WebshopServlet extends HttpServlet {
         Properties properties = new Properties();
 
         // Load the properties from web.xml
-        List<String> keys = Arrays.asList("user", "password", "ssl", "sslfactory", "url");
+        List<String> keys = Arrays.asList("user", "password", "ssl", "sslfactory", "url", "currentSchema");
         for(String key : keys) {
             String value = context.getInitParameter(key);
             if(value == null) {

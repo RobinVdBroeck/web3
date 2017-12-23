@@ -1,129 +1,95 @@
+import domain.Product;
 import io.github.bonigarcia.SeleniumExtension;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.util.stream.Collectors;
+import java.util.List;
+
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SeleniumExtension.class)
 public class ProductTest {
-    private static final String addUrl = "http://localhost:8080/shop-web/Controller?action=addProduct";
-
-    private void filloutField(WebDriver driver, String name, String value) {
-        WebElement field = driver.findElement(By.id(name));
-        field.clear();
-        field.sendKeys(value);
-    }
-
-    private void submitForm(WebDriver driver, String name, String description, String price) {
-        filloutField(driver, "name", name);
-        filloutField(driver, "description", description);
-        filloutField(driver, "price", price);
-
-        WebElement submit = driver.findElement(By.cssSelector("input[type=submit]"));
-        submit.click();
-    }
-
     @Test
     void testCorrect(ChromeDriver driver) {
-        driver.get(addUrl);
+        final AddProductPage addProductPage = new AddProductPage(driver);
+        addProductPage.open();
 
-        String name = "Book";
-        String description = "This is a book";
-        String price = "4.99";
+        final Product product = new Product();
+        product.setName("Book");
+        product.setDescription("This is a book");
+        product.setPrice(4.99);
 
-        submitForm(driver, name, description, price);
+        addProductPage.setProduct(product);
+        addProductPage.submit();
 
         String title = driver.getTitle();
-        Assertions.assertEquals("Product Overview", title);
+        assertEquals("Product Overview", title);
 
-        boolean found = driver.findElements(By.tagName("tr"))
-            .stream()
-            .map(row -> row.findElements(By.tagName("td"))
-                .stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList())
-            )
-            .skip(1)
-            .anyMatch(row ->
-                row.get(0).equals(name)
-                    && row.get(1).equals(description)
-                    && row.get(2).equals(price)
-            );
+        final ProductOverviewPage productOverviewPage = new ProductOverviewPage(driver);
+        List<Product> productList = productOverviewPage.getTable();
+
+        boolean found = productList.contains(product);
 
         Assertions.assertTrue(found);
     }
 
     @Test
     void testNameEmpty(ChromeDriver driver) {
-        driver.get(addUrl);
+        final AddProductPage addProductPage = new AddProductPage(driver);
+        addProductPage.open();
 
-        String name = "";
-        String description = "This is a book";
-        String price = "4.99";
+        final String description = "This is a book";
+        final double price = 4.99;
 
-        submitForm(driver, name, description, price);
+        addProductPage.setDescription(description);
+        addProductPage.setPrice(price);
+        addProductPage.submit();
 
-        WebElement errorMsg = driver.findElement(By.cssSelector("div.alert-danger ul li"));
-        Assertions.assertEquals("No name given", errorMsg.getText());
+        List<String> errors = addProductPage.getErrors();
+        assertTrue(errors.contains("No name given"));
 
-        WebElement nameField = driver.findElement(By.name("name"));
-        Assertions.assertEquals(name, nameField.getAttribute("value"));
-
-        WebElement descriptionField = driver.findElement(By.name("description"));
-        Assertions.assertEquals(description, descriptionField.getAttribute("value"));
-
-        WebElement priceField = driver.findElement(By.name("price"));
-        Assertions.assertEquals(price, priceField.getAttribute("value"));
+        assertEquals(description, addProductPage.getDescription());
+        assertEquals(price, addProductPage.getPrice());
     }
 
     @Test
     void testDescriptionEmpty(ChromeDriver driver) {
-        driver.get(addUrl);
+        final AddProductPage addProductPage = new AddProductPage(driver);
+        addProductPage.open();
 
-        String name = "Book";
-        String description = "";
-        String price = "4.99";
+        final String name = "Book";
+        final double price = 4.99;
 
-        submitForm(driver, name, description, price);
+        addProductPage.setName(name);
+        addProductPage.setPrice(price);
+        addProductPage.submit();
 
-        WebElement errorMsg = driver.findElement(By.cssSelector("div.alert-danger ul li"));
-        Assertions.assertEquals("No description given", errorMsg.getText());
+        List<String> errors = addProductPage.getErrors();
+        assertTrue(errors.contains("No description given"));
 
-        WebElement nameField = driver.findElement(By.name("name"));
-        Assertions.assertEquals(name, nameField.getAttribute("value"));
-
-        WebElement descriptionField = driver.findElement(By.name("description"));
-        Assertions.assertEquals(description, descriptionField.getAttribute("value"));
-
-        WebElement priceField = driver.findElement(By.name("price"));
-        Assertions.assertEquals(price, priceField.getAttribute("value"));
+        assertEquals(name, addProductPage.getName());
+        assertEquals(price, addProductPage.getPrice());
     }
 
     @Test
     void testPriceEmpty(ChromeDriver driver) {
-        driver.get(addUrl);
+        final AddProductPage addProductPage = new AddProductPage(driver);
+        addProductPage.open();
 
-        String name = "Book";
-        String description = "This is a book";
-        String price = "";
+        final String name = "Book";
+        final String description = "This is a book";
 
-        submitForm(driver, name, description, price);
+        addProductPage.setName("Book");
+        addProductPage.setDescription("This is a book");
+        addProductPage.submit();
 
-        WebElement errorMsg = driver.findElement(By.cssSelector("div.alert-danger ul li"));
-        Assertions.assertEquals("Price cannot be empty", errorMsg.getText());
+        List<String> errors = addProductPage.getErrors();
+        assertTrue(errors.contains("Price cannot be empty"));
 
-        WebElement nameField = driver.findElement(By.name("name"));
-        Assertions.assertEquals(name, nameField.getAttribute("value"));
-
-        WebElement descriptionField = driver.findElement(By.name("description"));
-        Assertions.assertEquals(description, descriptionField.getAttribute("value"));
-
-        WebElement priceField = driver.findElement(By.name("price"));
-        Assertions.assertEquals(price, priceField.getAttribute("value"));
+        assertEquals(name, addProductPage.getName());
+        assertEquals(description, addProductPage.getDescription());
     }
 }

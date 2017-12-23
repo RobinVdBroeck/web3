@@ -32,7 +32,7 @@
                        value="<c:out value="${product.price}" />" required>
             </p>
             <p>
-                <input type="submit" value="Save"/>
+                <input type="submit" id="update" value="Save"/>
             </p>
         </form>
     </main>

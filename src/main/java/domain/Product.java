@@ -15,6 +15,13 @@ public class Product {
         setPrice(d);
     }
 
+    public Product(int id, String name, String description, double d) {
+        setId(id);
+        setName(name);
+        setDescription(description);
+        setPrice(d);
+    }
+
     public int getId() {
         return id;
     }
@@ -60,5 +67,16 @@ public class Product {
     @Override
     public String toString() {
         return getName() + ": " + getDescription() + " - " + getPrice();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Product) {
+            Product other = (Product) obj;
+            return this.getName().equals(other.getName())
+                && this.getDescription().equals(other.getDescription())
+                && this.getPrice() == (other.getPrice());
+        }
+        return false;
     }
 }

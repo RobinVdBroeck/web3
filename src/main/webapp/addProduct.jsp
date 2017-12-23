@@ -40,7 +40,7 @@
                        required/>
             </p>
             <p>
-                <input type="submit" value="Add"/>
+                <input type="submit" id="save" value="Add"/>
             </p>
         </form>
     </main>

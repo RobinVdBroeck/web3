@@ -1,32 +1,50 @@
-import io.github.bonigarcia.SeleniumExtension;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import io.github.bonigarcia.wdm.ChromeDriverManager;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
-@ExtendWith(SeleniumExtension.class)
 public class RegisterTest {
     private final static String signUp = "http://localhost:8080/shop-web/Controller?action=signUp";
     private final static String users = "http://localhost:8080/shop-web/Controller?action=users";
 
+    private WebDriver driver;
+
+    @BeforeClass
+    public static void setupClass() {
+        ChromeDriverManager.getInstance().setup();
+    }
+
+    @Before
+    public void setupTest() {
+        driver = new ChromeDriver();
+    }
+
+    @After
+    public void teardown() {
+        driver.quit();
+    }
 
     private String generateRandomUseridInOrderToRunTestMoreThanOnce(String component) {
         int random = (int) (Math.random() * 1000 + 1);
         return random + component;
     }
 
-    private void fillOutField(ChromeDriver driver, String name, String value) {
+    private void fillOutField(WebDriver driver, String name, String value) {
         WebElement field = driver.findElement(By.id(name));
         field.clear();
         field.sendKeys(value);
     }
 
-    private void submitForm(ChromeDriver driver, String userid, String firstName, String lastName, String email, String password) {
+    private void submitForm(WebDriver driver, String userid, String firstName, String lastName, String email, String password) {
         fillOutField(driver, "userid", userid);
         fillOutField(driver, "firstName", firstName);
         fillOutField(driver, "lastName", lastName);
@@ -39,7 +57,7 @@ public class RegisterTest {
 
 
     @Test
-    public void testRegisterCorrect(ChromeDriver driver) {
+    public void testRegisterCorrect() {
         driver.get(signUp);
 
         String useridRandom = generateRandomUseridInOrderToRunTestMoreThanOnce("jakke");
@@ -56,11 +74,10 @@ public class RegisterTest {
             .anyMatch(text -> text.contains("jan.janssens@hotmail.com") && text.contains("Jan Janssens"));
 
         assertEquals(true, found);
-
     }
 
     @Test
-    public void testRegisterUseridEmpty(ChromeDriver driver) {
+    public void testRegisterUseridEmpty() {
         driver.get(signUp);
 
         submitForm(driver, "", "Jan", "Janssens", "jan.janssens@hotmail.com", "1234");
@@ -87,7 +104,7 @@ public class RegisterTest {
     }
 
     @Test
-    public void testRegisterFirstNameEmpty(ChromeDriver driver) {
+    public void testRegisterFirstNameEmpty() {
         driver.get(signUp);
 
         submitForm(driver, "jakke", "", "Janssens", "jan.janssens@hotmail.com", "1234");
@@ -114,7 +131,7 @@ public class RegisterTest {
     }
 
     @Test
-    public void tSelestRegisterLastNameEmpty(ChromeDriver driver) {
+    public void tSelestRegisterLastNameEmpty() {
         driver.get(signUp);
         submitForm(driver, "jakke", "Jan", "", "jan.janssens@hotmail.com", "1234");
 
@@ -140,7 +157,7 @@ public class RegisterTest {
     }
 
     @Test
-    public void testRegisterEmailEmpty(ChromeDriver driver) {
+    public void testRegisterEmailEmpty() {
         driver.get(signUp);
 
         submitForm(driver, "jakke", "Jan", "Janssens", "", "1234");
@@ -166,7 +183,7 @@ public class RegisterTest {
 
 
     @Test
-    public void testRegisterPasswordEmpty(ChromeDriver driver) {
+    public void testRegisterPasswordEmpty() {
         driver.get(signUp);
 
         submitForm(driver, "jakke", "Jan", "Janssens", "jan.janssens@hotmail.com", "");
@@ -193,7 +210,7 @@ public class RegisterTest {
     }
 
     @Test
-    public void testRegisterUserAlreadyExists(ChromeDriver driver) {
+    public void testRegisterUserAlreadyExists() {
         driver.get(signUp);
 
         String useridRandom = generateRandomUseridInOrderToRunTestMoreThanOnce("pierke");
@@ -219,7 +236,7 @@ public class RegisterTest {
     }
 
     @Test
-    public void testAllFieldsEmptyWhenNothingEntered(ChromeDriver driver) {
+    public void testAllFieldsEmptyWhenNothingEntered() {
         driver.get(signUp);
 
         List<WebElement> fields = driver.findElements(By.cssSelector("form p input:not(:last-child)"));

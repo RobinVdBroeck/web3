@@ -1,19 +1,36 @@
 import domain.Product;
-import io.github.bonigarcia.SeleniumExtension;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import io.github.bonigarcia.wdm.ChromeDriverManager;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
-@ExtendWith(SeleniumExtension.class)
 public class ProductTest {
+    private WebDriver driver;
+
+    @BeforeClass
+    public static void setupClass() {
+        ChromeDriverManager.getInstance().setup();
+    }
+
+    @Before
+    public void setup() {
+        driver = new ChromeDriver();
+    }
+
+    @After
+    public void tearDown() {
+        driver.quit();
+    }
+
     @Test
-    void testCorrect(ChromeDriver driver) {
+    public void testCorrect() {
         final AddProductPage addProductPage = new AddProductPage(driver);
         addProductPage.open();
 
@@ -33,11 +50,11 @@ public class ProductTest {
 
         boolean found = productList.contains(product);
 
-        Assertions.assertTrue(found);
+        assertTrue(found);
     }
 
     @Test
-    void testNameEmpty(ChromeDriver driver) {
+    public void testNameEmpty() {
         final AddProductPage addProductPage = new AddProductPage(driver);
         addProductPage.open();
 
@@ -52,11 +69,11 @@ public class ProductTest {
         assertTrue(errors.contains("No name given"));
 
         assertEquals(description, addProductPage.getDescription());
-        assertEquals(price, addProductPage.getPrice());
+        assertEquals(price, addProductPage.getPrice(), 0);
     }
 
     @Test
-    void testDescriptionEmpty(ChromeDriver driver) {
+    public void testDescriptionEmpty() {
         final AddProductPage addProductPage = new AddProductPage(driver);
         addProductPage.open();
 
@@ -71,11 +88,11 @@ public class ProductTest {
         assertTrue(errors.contains("No description given"));
 
         assertEquals(name, addProductPage.getName());
-        assertEquals(price, addProductPage.getPrice());
+        assertEquals(price, addProductPage.getPrice(), 0);
     }
 
     @Test
-    void testPriceEmpty(ChromeDriver driver) {
+    public void testPriceEmpty() {
         final AddProductPage addProductPage = new AddProductPage(driver);
         addProductPage.open();
 

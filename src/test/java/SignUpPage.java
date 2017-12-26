@@ -1,9 +1,14 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SignUpPage {
     private final WebDriver driver;
-    private final String url = Util.baseUrl + "Controller?action=signUp";
+    public static final String url = Util.baseUrl + "Controller?action=signUp";
 
     public SignUpPage(WebDriver driver) {
         this.driver = driver;
@@ -11,6 +16,19 @@ public class SignUpPage {
 
     public void open() {
         driver.get(url);
+    }
+
+    public List<String> getErrors() {
+        final WebElement container = driver.findElement(By.className("alert-danger"));
+
+        if (container == null) {
+            return Collections.emptyList();
+        }
+
+        return container.findElements(By.cssSelector("li"))
+            .stream()
+            .map(WebElement::getText)
+            .collect(Collectors.toList());
     }
 
     public void setUserId(String id) {

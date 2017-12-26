@@ -63,9 +63,11 @@ public class PersonDatabasePostgres implements PersonDatabase {
             statement.setString(4, person.getFirstName());
             statement.setString(5, person.getLastName());
             statement.execute();
-        } catch (SQLIntegrityConstraintViolationException e) {
-            throw new DbException("User already exists");
         } catch (SQLException e) {
+            if (e.getSQLState().contains("23505")) {
+                throw new DbException("User already exists");
+
+            }
             throw new DbException(e);
         }
     }

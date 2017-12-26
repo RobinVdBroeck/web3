@@ -13,7 +13,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class RegisterTest {
-    private final static String signUp = "http://localhost:8080/shop-web/Controller?action=signUp";
     private final static String users = "http://localhost:8080/shop-web/Controller?action=users";
     private SignUpPage signUpPage;
 
@@ -185,7 +184,7 @@ public class RegisterTest {
 
     @Test
     public void testAllFieldsEmptyWhenNothingEntered() {
-        driver.get(signUp);
+        driver.get(SignUpPage.url);
 
         List<WebElement> fields = driver.findElements(By.cssSelector("form p input:not(:last-child)"));
 

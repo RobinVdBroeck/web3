@@ -14,4 +14,8 @@ public class Util {
         field.clear();
         field.sendKeys(content);
     }
+
+    public static String getValue(WebDriver driver, String id) {
+        return driver.findElement(By.id(id)).getAttribute("value");
+    }
 }

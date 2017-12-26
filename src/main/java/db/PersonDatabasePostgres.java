@@ -56,18 +56,6 @@ public class PersonDatabasePostgres implements PersonDatabase {
 
     @Override
     public void add(Person person) {
-        try (PreparedStatement statement = connection.prepareStatement("SELECT count(*) = 1 AS exists FROM person WHERE user_id = ?")) {
-            statement.setString(1, person.getUserid());
-            boolean exists;
-            try (ResultSet result = statement.executeQuery()) {
-                result.next();
-                exists = result.getBoolean("exists");
-            }
-            if (exists) throw new DbException("User already exists");
-        } catch (SQLException e) {
-            throw new DbException(e);
-        }
-
         try (PreparedStatement statement = connection.prepareStatement("INSERT INTO person(user_id, email, password, first_name, last_name) VALUES(?,?,?,?,?)")) {
             statement.setString(1, person.getUserid());
             statement.setString(2, person.getEmail());
@@ -75,6 +63,8 @@ public class PersonDatabasePostgres implements PersonDatabase {
             statement.setString(4, person.getFirstName());
             statement.setString(5, person.getLastName());
             statement.execute();
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw new DbException("User already exists");
         } catch (SQLException e) {
             throw new DbException(e);
         }

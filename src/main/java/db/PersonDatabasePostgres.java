@@ -2,7 +2,6 @@ package db;
 
 import domain.Person;
 
-import javax.validation.constraints.NotNull;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

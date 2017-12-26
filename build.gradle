@@ -1,0 +1,31 @@
+apply plugin: 'java'
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+
+group = 'be.gamesmaxed'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+gretty {
+    contextPath = '/shop-web'
+    servletContainer = 'tomcat8'
+}
+
+dependencies {
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
+    compile group: 'javax', name: 'javaee-api', version: '7.0'
+    compile group: 'jstl', name: 'jstl', version: '1.2'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.0.1'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.0.1'
+    testCompile group: 'io.github.bonigarcia', name: 'selenium-jupiter', version: '1.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+

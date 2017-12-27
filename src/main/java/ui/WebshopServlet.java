@@ -172,6 +172,9 @@ public class WebshopServlet extends HttpServlet {
         try {
             final Person newUser = new Person(userid, email, password, firstName, lastName);
             shopService.addPerson(newUser);
+            HttpSession session = req.getSession();
+            session.setAttribute("loggedInUser", newUser);
+            res.sendRedirect("controller?action=indexGet");
         } catch (IllegalArgumentException | DbException e) {
             req.setAttribute("error", e.getMessage());
             req.setAttribute("userid", userid);
@@ -181,8 +184,6 @@ public class WebshopServlet extends HttpServlet {
             req.setAttribute("lastName", lastName);
             processRequest("signupGet", req, res);
         }
-
-        processRequest("indexGet", req, res);
     }
 
     private void addProductGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -202,6 +203,7 @@ public class WebshopServlet extends HttpServlet {
             final double price = Double.parseDouble(priceString);
             final Product newProduct = new Product(name, description, price);
             shopService.addProduct(newProduct);
+            res.sendRedirect("Controller?action=productsGet");
         } catch (NumberFormatException | DomainException | DbException e) {
             req.setAttribute("error", e.getMessage());
             req.setAttribute("name", name);
@@ -209,8 +211,6 @@ public class WebshopServlet extends HttpServlet {
             req.setAttribute("price", priceString);
             processRequest("addProductGet", req, res);
         }
-
-        processRequest("productsGet", req, res);
     }
 
     private void updateProductGet(HttpServletRequest req, HttpServletResponse res) throws
@@ -224,7 +224,7 @@ public class WebshopServlet extends HttpServlet {
     }
 
     private void updateProductPost(HttpServletRequest req, HttpServletResponse res) throws
-        ServletException, IOException {
+        IOException {
         // Get the parameters
         final String name = req.getParameter("name");
         final String description = req.getParameter("description");
@@ -238,7 +238,7 @@ public class WebshopServlet extends HttpServlet {
         // Update the product in the database
         shopService.updateProduct(product);
 
-        processRequest("productsGet", req, res);
+        res.sendRedirect("controller?action=productsGet");
     }
 
     private void changeColorGet(HttpServletRequest req, HttpServletResponse res) throws
@@ -277,7 +277,7 @@ public class WebshopServlet extends HttpServlet {
             }
             final HttpSession session = req.getSession();
             session.setAttribute("loggedInUser", person);
-            processRequest("indexGet", req, res);
+            res.sendRedirect("Controller?action=indexGet");
         } catch (DbException | DomainException e) {
             req.setAttribute("error", "Username and password do not match");
             req.setAttribute("userid", userId);
@@ -289,6 +289,6 @@ public class WebshopServlet extends HttpServlet {
     private void logoutGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         final HttpSession session = req.getSession();
         session.setAttribute("loggedInUser", null);
-        processRequest("indexGet", req, res);
+        res.sendRedirect("/Controller?action=indexGet");
     }
 }

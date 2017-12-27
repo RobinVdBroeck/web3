@@ -1,3 +1,5 @@
+package ui;
+
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import org.junit.After;
 import org.junit.Before;
@@ -7,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import ui.pages.SignUpPage;
 
 import java.util.List;
 
@@ -53,7 +56,7 @@ public class RegisterTest {
         String title = driver.getTitle();
         assertEquals("Sign Up", title);
 
-        // TODO: refactor this into SignUpPage
+        // TODO: refactor this into ui.pages.SignUpPage
         WebElement errorMsg = driver.findElement(By.cssSelector("div.alert-danger ul li"));
         assertEquals(errormessage, errorMsg.getText());
 

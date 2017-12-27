@@ -1,3 +1,5 @@
+package ui;
+
 import static org.junit.Assert.*;
 
 import domain.Product;
@@ -10,6 +12,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import ui.pages.ProductOverviewPage;
+import ui.pages.UpdateProductPage;
+import ui.pages.UserOverviewPage;
 
 import java.util.Optional;
 
@@ -93,5 +98,4 @@ public class CookieTest {
 
         checkColorFooter("Product Overview");
     }
-
 }

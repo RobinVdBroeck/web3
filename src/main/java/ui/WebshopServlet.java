@@ -76,17 +76,17 @@ public class WebshopServlet extends HttpServlet {
     private void processRequest(Optional<String> action, HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
         if (!action.isPresent()) {
-            index(req, res);
+            indexGet(req, res);
             return;
         }
 
         req.setAttribute("action", action.get());
         switch (action.get()) {
             case "usersGet":
-                users(req, res);
+                usersGet(req, res);
                 break;
             case "productsGet":
-                products(req, res);
+                productsGet(req, res);
                 break;
             case "addProductGet":
                 addProductGet(req, res);
@@ -98,7 +98,7 @@ public class WebshopServlet extends HttpServlet {
                 updateProductGet(req, res);
                 break;
             case "changeColorGet":
-                changeColor(req, res);
+                changeColorGet(req, res);
                 break;
             case "signUpPost":
                 signUpPost(req, res);
@@ -108,6 +108,15 @@ public class WebshopServlet extends HttpServlet {
                 break;
             case "updateProductPost":
                 updateProductPost(req, res);
+                break;
+            case "loginGet":
+                loginGet(req, res);
+                break;
+            case "loginPost":
+                loginPost(req, res);
+                break;
+            default:
+                indexGet(req, res);
                 break;
         }
     }
@@ -128,20 +137,20 @@ public class WebshopServlet extends HttpServlet {
         return map;
     }
 
-    private void index(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    private void indexGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         final RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
         dispatcher.forward(req, res);
     }
 
-    private void users(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    private void usersGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         final RequestDispatcher dispatcher = req.getRequestDispatcher("users.jsp");
-        req.setAttribute("users", shopService.getPersons());
+        req.setAttribute("usersGet", shopService.getPersons());
         dispatcher.forward(req, res);
     }
 
-    private void products(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    private void productsGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         final RequestDispatcher dispatcher = req.getRequestDispatcher("products.jsp");
-        req.setAttribute("products", shopService.getProducts());
+        req.setAttribute("productsGet", shopService.getProducts());
         dispatcher.forward(req, res);
     }
 
@@ -170,7 +179,7 @@ public class WebshopServlet extends HttpServlet {
             signUpGet(req, res);
         }
 
-        index(req, res);
+        indexGet(req, res);
     }
 
     private void addProductGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -198,7 +207,7 @@ public class WebshopServlet extends HttpServlet {
             addProductGet(req, res);
         }
 
-        products(req, res);
+        productsGet(req, res);
     }
 
     private void updateProductGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -224,10 +233,10 @@ public class WebshopServlet extends HttpServlet {
         // Update the product in the database
         shopService.updateProduct(product);
 
-        products(req, res);
+        productsGet(req, res);
     }
 
-    private void changeColor(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    private void changeColorGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         // Get the current color cookie. If it does not exist, it is yellow
         Map<String, Cookie> cookies = getCookies(req);
         Cookie colorCookie = cookies.getOrDefault("color", new Cookie("color", "yellow"));
@@ -244,5 +253,26 @@ public class WebshopServlet extends HttpServlet {
         // old location
         Optional<String> oldAction = Optional.ofNullable(req.getParameter("oldAction"));
         processRequest(oldAction, req, res);
+    }
+
+    private void loginGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        // Get the parameters
+        final RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+        dispatcher.forward(req, res);
+    }
+
+    private void loginPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        final String userId = req.getParameter("userid");
+        final String password = req.getParameter("password");
+
+        try {
+            // auth user
+            throw new DbException("Username and password do not match");
+        } catch(DbException e) {
+            req.setAttribute("error", e.getMessage());
+            req.setAttribute("userid", userId);
+            req.setAttribute("password", password);
+        }
+        loginGet(req, res);
     }
 }

@@ -1,5 +1,8 @@
+package ui.pages;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import ui.Util;
 
 public class UpdateProductPage {
     private final WebDriver driver;

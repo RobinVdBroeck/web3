@@ -1,7 +1,10 @@
+package ui.pages;
+
 import domain.Product;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import ui.Util;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +32,6 @@ public class AddProductPage {
     public void setName(String name) {
         Util.enterField(driver, "name", name);
     }
-
 
     public void setDescription(String description) {
         Util.enterField(driver, "description", description);

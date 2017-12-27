@@ -1,6 +1,10 @@
+package ui.pages;
+
+import domain.Person;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import ui.Util;
 
 import java.util.Collections;
 import java.util.List;

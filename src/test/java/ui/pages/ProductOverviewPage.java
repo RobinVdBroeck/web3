@@ -1,7 +1,10 @@
+package ui.pages;
+
 import domain.Product;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import ui.Util;
 
 import java.util.List;
 import java.util.regex.Matcher;

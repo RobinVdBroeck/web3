@@ -23,6 +23,10 @@ public class ShopService {
         return getPersonDb().get(personId);
     }
 
+    public Person getUserIfAuthenticated(String personId, String password) {
+        return null;
+    }
+
     public List<Person> getPersons() {
         return getPersonDb().getAll();
     }

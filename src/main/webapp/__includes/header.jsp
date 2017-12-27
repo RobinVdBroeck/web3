@@ -14,7 +14,7 @@
                         id="actual"
                     </c:if>
             >
-                <a href="Controller">Home</a>
+                <a href="Controller" id="homeNav">Home</a>
             </li>
 
             <!-- Users -->
@@ -23,7 +23,7 @@
                         id="actual"
                     </c:if>
             >
-                <a href="Controller?action=usersGet">Users</a>
+                <a href="Controller?action=usersGet" id="usersNav">Users</a>
             </li>
 
             <!-- Products -->
@@ -33,7 +33,7 @@
                         id="actual"
                     </c:if>
             >
-                <a href="Controller?action=productsGet">Products</a>
+                <a href="Controller?action=productsGet" id="productsNav">Products</a>
             </li>
 
             <!-- Add Product -->
@@ -42,12 +42,11 @@
                         id="actual"
                     </c:if>
             >
-                <a href="Controller?action=addProductGet">Add Product</a>
+                <a href="Controller?action=addProductGet" id="addProductNav">Add Product</a>
             </li>
 
             <jsp:include page="loginHeader.jsp">
                 <jsp:param name="page" value="${param.page}"/>
-                <jsp:param name="user" value="${-1}"/>
             </jsp:include>
         </ul>
     </nav>

@@ -34,7 +34,7 @@
                 <input type="password" id="password" name="password" value="<c:out value="${password}"/>" required>
             </p>
             <p>
-                <input type="submit" id="signUp" value="Sign Up">
+                <input type="submit" id="login" value="Login">
             </p>
         </form>
     </main>

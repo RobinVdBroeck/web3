@@ -2,7 +2,8 @@ package ui;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import org.apache.commons.lang3.NotImplementedException;
@@ -15,14 +16,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import org.openqa.selenium.chrome.ChromeDriver;
-import ui.pages.SignUpPage;
+import ui.pages.*;
 
 public class LoginTest {
     private WebDriver driver;
     private String useridRandom;
     private final String password = "1234";
     private final String firstname = "Jan";
-    private final String url = "http://localhost:8080/shop-web/Controller";
 
     @BeforeClass
     private static void setupClass() {
@@ -41,11 +41,6 @@ public class LoginTest {
         driver.quit();
     }
 
-    private void fillOutField(String name, String value) {
-        WebElement field = driver.findElement(By.id(name));
-        field.clear();
-        field.sendKeys(value);
-    }
 
     private String generateRandomUseridInOrderToRunTestMoreThanOnce(String component) {
         int random = (int) (Math.random() * 1000 + 1);
@@ -79,50 +74,41 @@ public class LoginTest {
         */
     }
 
-    private void logIn(String userid, String password) {
-        fillOutField("userid", userid);
-        fillOutField("password", password);
 
-        WebElement button = driver.findElement(By.id("logIn"));
-        button.click();
-    }
-
-    private boolean findTekstWelcome() {
-        ArrayList<WebElement> paragraphs = (ArrayList<WebElement>) driver.findElements(By.tagName("p"));
-        Boolean found = false;
-        for (WebElement webElement : paragraphs) {
-            if (webElement.getText().equals("Welcome, " + firstname + ".")) {
-                found = true;
-            }
-        }
-        return found;
+    private boolean findTextWelcome() {
+        Stream<WebElement> elements = Stream.of(driver.findElement(By.tagName("p")));
+        return elements.map(WebElement::getText)
+            .anyMatch(e -> e.equals("Welcome, " + firstname + "."));
     }
 
 
     @Test
     public void testCorrectLoginHomepageWelcomeTextLogoutButton() {
-        driver.get(Util.baseUrl);
-        logIn(useridRandom, password);
+        final LoginPage loginPage = new LoginPage(driver);
+        loginPage.open();
+        loginPage.login(useridRandom, password);
         assertEquals("Home", driver.getTitle());
 
-        assertTrue(findTekstWelcome());
+        assertTrue(findTextWelcome());
 
-        // loginknop aanwezig
-        assertNotNull(driver.findElement(By.id("logOut")));
+        // logout aanwezig
+        assertNotNull(driver.findElement(By.id("logoutNav")));
     }
 
     @Test
     public void testKeepedLoggedInWhenVisitedOtherPage() {
-        driver.get(Util.baseUrl);
-        logIn(useridRandom, password);
+        final LoginPage loginPage = new LoginPage(driver);
+        loginPage.open();
+        loginPage.login(useridRandom, password);
 
-        driver.get(url + "?action=overview");
-        driver.get(url + "?action=addProduct");
-        driver.get(url);
+        final AddProductPage addProductPage = new AddProductPage(driver);
+        addProductPage.open();
 
-        assertTrue(findTekstWelcome());
-        assertNotNull(driver.findElement(By.id("logOut")));
+        final HomePage homePage = new HomePage(driver);
+        homePage.open();
 
+        assertTrue(findTextWelcome());
+        assertNotNull(driver.findElement(By.id("logoutNav")));
     }
 
 }

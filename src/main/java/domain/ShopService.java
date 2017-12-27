@@ -24,6 +24,11 @@ public class ShopService {
     }
 
     public Person getUserIfAuthenticated(String personId, String password) {
+        Person person = getPerson(personId);
+
+        if (person != null && person.isCorrectPassword(password)) {
+            return person;
+        }
         return null;
     }
 

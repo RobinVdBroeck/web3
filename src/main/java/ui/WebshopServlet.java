@@ -10,10 +10,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -65,23 +62,25 @@ public class WebshopServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        processRequest(Optional.ofNullable(req.getParameter("action")), req, res);
+        processRequest(req.getParameter("action"), req, res);
     }
 
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        processRequest(Optional.ofNullable(req.getParameter("action")), req, res);
+        processRequest(req.getParameter("action"), req, res);
     }
 
-    private void processRequest(Optional<String> action, HttpServletRequest req, HttpServletResponse res)
+    private void processRequest(String action, HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
-        if (!action.isPresent()) {
-            indexGet(req, res);
-            return;
+        if (action == null) {
+            action = "indexGet";
         }
+        req.setAttribute("action", action);
 
-        req.setAttribute("action", action.get());
-        switch (action.get()) {
+        switch (action) {
+            case "indexGet":
+                indexGet(req, res);
+                break;
             case "usersGet":
                 usersGet(req, res);
                 break;
@@ -115,15 +114,19 @@ public class WebshopServlet extends HttpServlet {
             case "loginPost":
                 loginPost(req, res);
                 break;
+            case "logoutGet":
+                logoutGet(req, res);
+                break;
             default:
                 indexGet(req, res);
                 break;
         }
     }
 
+
     private Map<String, Cookie> getCookies(HttpServletRequest req) {
-        Cookie[] cookies = req.getCookies();
-        Map<String, Cookie> map = new HashMap<>();
+        final Cookie[] cookies = req.getCookies();
+        final Map<String, Cookie> map = new HashMap<>();
 
         // If there are cookies
         if (cookies != null) {
@@ -144,13 +147,13 @@ public class WebshopServlet extends HttpServlet {
 
     private void usersGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         final RequestDispatcher dispatcher = req.getRequestDispatcher("users.jsp");
-        req.setAttribute("usersGet", shopService.getPersons());
+        req.setAttribute("users", shopService.getPersons());
         dispatcher.forward(req, res);
     }
 
     private void productsGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         final RequestDispatcher dispatcher = req.getRequestDispatcher("products.jsp");
-        req.setAttribute("productsGet", shopService.getProducts());
+        req.setAttribute("products", shopService.getProducts());
         dispatcher.forward(req, res);
     }
 
@@ -176,10 +179,10 @@ public class WebshopServlet extends HttpServlet {
             req.setAttribute("password", password);
             req.setAttribute("firstName", firstName);
             req.setAttribute("lastName", lastName);
-            signUpGet(req, res);
+            processRequest("signupGet", req, res);
         }
 
-        indexGet(req, res);
+        processRequest("indexGet", req, res);
     }
 
     private void addProductGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -204,13 +207,14 @@ public class WebshopServlet extends HttpServlet {
             req.setAttribute("name", name);
             req.setAttribute("description", description);
             req.setAttribute("price", priceString);
-            addProductGet(req, res);
+            processRequest("addProductGet", req, res);
         }
 
-        productsGet(req, res);
+        processRequest("productsGet", req, res);
     }
 
-    private void updateProductGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    private void updateProductGet(HttpServletRequest req, HttpServletResponse res) throws
+        ServletException, IOException {
         final String id = req.getParameter("id");
         final Product product = shopService.getProduct(Integer.parseInt(id));
         req.setAttribute("product", product);
@@ -219,7 +223,8 @@ public class WebshopServlet extends HttpServlet {
         dispatcher.forward(req, res);
     }
 
-    private void updateProductPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    private void updateProductPost(HttpServletRequest req, HttpServletResponse res) throws
+        ServletException, IOException {
         // Get the parameters
         final String name = req.getParameter("name");
         final String description = req.getParameter("description");
@@ -233,13 +238,14 @@ public class WebshopServlet extends HttpServlet {
         // Update the product in the database
         shopService.updateProduct(product);
 
-        productsGet(req, res);
+        processRequest("productsGet", req, res);
     }
 
-    private void changeColorGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    private void changeColorGet(HttpServletRequest req, HttpServletResponse res) throws
+        ServletException, IOException {
         // Get the current color cookie. If it does not exist, it is yellow
-        Map<String, Cookie> cookies = getCookies(req);
-        Cookie colorCookie = cookies.getOrDefault("color", new Cookie("color", "yellow"));
+        final Map<String, Cookie> cookies = getCookies(req);
+        final Cookie colorCookie = cookies.getOrDefault("color", new Cookie("color", "yellow"));
 
         // Revert it values
         if (colorCookie.getValue().equals("yellow")) {
@@ -251,7 +257,7 @@ public class WebshopServlet extends HttpServlet {
         res.addCookie(colorCookie);
 
         // old location
-        Optional<String> oldAction = Optional.ofNullable(req.getParameter("oldAction"));
+        final String oldAction = req.getParameter("oldAction");
         processRequest(oldAction, req, res);
     }
 
@@ -264,15 +270,25 @@ public class WebshopServlet extends HttpServlet {
     private void loginPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         final String userId = req.getParameter("userid");
         final String password = req.getParameter("password");
-
         try {
-            // auth user
-            throw new DbException("Username and password do not match");
-        } catch(DbException e) {
-            req.setAttribute("error", e.getMessage());
+            final Person person = shopService.getUserIfAuthenticated(userId, password);
+            if (person == null) {
+                throw new DomainException("Username and password do not match");
+            }
+            final HttpSession session = req.getSession();
+            session.setAttribute("loggedInUser", person);
+            processRequest("indexGet", req, res);
+        } catch (DbException | DomainException e) {
+            req.setAttribute("error", "Username and password do not match");
             req.setAttribute("userid", userId);
             req.setAttribute("password", password);
+            processRequest("loginGet", req, res);
         }
-        loginGet(req, res);
+    }
+
+    private void logoutGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        final HttpSession session = req.getSession();
+        session.setAttribute("loggedInUser", null);
+        processRequest("indexGet", req, res);
     }
 }

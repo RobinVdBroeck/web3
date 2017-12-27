@@ -66,7 +66,6 @@ public class PersonDatabasePostgres implements PersonDatabase {
         } catch (SQLException e) {
             if (e.getSQLState().contains("23505")) {
                 throw new DbException("User already exists");
-
             }
             throw new DbException(e);
         }

@@ -2,15 +2,12 @@
          pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Home</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-</head>
+<jsp:include page="__includes/head.jsp">
+    <jsp:param name="title" value="Home"/>
+</jsp:include>
 <body>
 <div id="container">
-    <jsp:include page="top.jsp">
+    <jsp:include page="__includes/header.jsp">
         <jsp:param name="page" value="Home"/>
     </jsp:include>
     <main>
@@ -21,7 +18,7 @@
         aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos
         qui ratione voluptatem sequi nesciunt.
     </main>
-    <footer> &copy; Webontwikkeling 3, UC Leuven-Limburg</footer>
+    <jsp:include page="__includes/footer.jsp" />
 </div>
 </body>
 </html>

@@ -7,23 +7,15 @@
 body {
     font-family: arial, sans-serif;
     font-size: 90%;
-    color: #303d11;
-    background-color: #303d11;
 }
 
 div#container {
     background-color: #FFF;
-    margin: auto;
-    margin-top: 10px;
-}
-
-footer {
-    background-color: #b99703;
+    margin: 10px auto auto;
 }
 
 nav ul {
     list-style: none;
-    background-color: #b99703;
     box-sizing: border-box;
     margin-bottom: 1em;
 }
@@ -38,13 +30,8 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #303d11;
     text-decoration: none;
     display: block;
-}
-
-nav ul li#actual {
-    background-color: #f3dc04;
 }
 
 h2, main, footer {
@@ -52,7 +39,6 @@ h2, main, footer {
 }
 
 h1 {
-    background-image: url("../images/bannerKlein.png");
     height: 100px;
     background-repeat: no-repeat;
     background-size: cover;
@@ -147,10 +133,6 @@ input {
         max-width: 1000px;
     }
 
-    h1 {
-        background-image: url("../images/banner.png");
-    }
-
     nav ul {
         display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6, BB7 */
         display: -ms-flexbox; /* TWEENER - IE 10 */
@@ -194,7 +176,7 @@ input {
         margin-right: 10px;
     }
 
-    input[type="text"], input[type="email"], input[type="password"], input[type="number"], textarea {
+    input[type="text"], input[type="email"], input[type="password"], textarea {
         width: 400px;
     }
 

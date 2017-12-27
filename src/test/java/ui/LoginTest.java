@@ -2,7 +2,6 @@ package ui;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 import io.github.bonigarcia.wdm.ChromeDriverManager;
@@ -25,7 +24,7 @@ public class LoginTest {
     private final String firstname = "Jan";
 
     @BeforeClass
-    private static void setupClass() {
+    public static void setupClass() {
         ChromeDriverManager.getInstance().setup();
     }
 

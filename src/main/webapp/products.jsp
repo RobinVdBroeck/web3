@@ -4,12 +4,12 @@
 <!DOCTYPE html>
 <html>
 <jsp:include page="__includes/head.jsp">
-    <jsp:param name="title" value="Product overview"/>
+    <jsp:param name="title" value="Product Overview"/>
 </jsp:include>
 <body>
 <div id="container">
     <jsp:include page="__includes/header.jsp">
-        <jsp:param name="page" value="Product overview"/>
+        <jsp:param name="page" value="Product Overview"/>
     </jsp:include>
     <main>
         <table>
@@ -21,7 +21,7 @@
             <c:forEach var="product" items="${products}">
                 <tr>
                     <td>
-                        <a href="Controller?action=updateProduct&id=<c:out value="${product.id}" />">
+                        <a href="Controller?action=updateProductGet&id=<c:out value="${product.id}" />">
                             <c:out value="${product.name}"/>
                         </a>
                     </td>

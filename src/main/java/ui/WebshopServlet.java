@@ -10,6 +10,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,9 +18,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 @WebServlet("/Controller")
 public class WebshopServlet extends HttpServlet {
@@ -35,9 +34,9 @@ public class WebshopServlet extends HttpServlet {
         Properties properties = new Properties();
         // Load the properties from web.xml
         List<String> keys = Arrays.asList("user", "password", "ssl", "sslfactory", "url", "currentSchema");
-        for(String key : keys) {
+        for (String key : keys) {
             String value = context.getInitParameter(key);
-            if(value == null) {
+            if (value == null) {
                 throw new DomainException("Property with name " + key + " does not exist");
             }
             properties.setProperty(key, value);
@@ -66,51 +65,68 @@ public class WebshopServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        final String action = req.getParameter("action");
-        if (action == null) {
-            index(req, res);
-        } else {
-            switch (action) {
-                case "users":
-                    users(req, res);
-                    break;
-                case "products":
-                    products(req, res);
-                    break;
-                case "addProduct":
-                    addProductGet(req, res);
-                    break;
-                case "signUp":
-                    signUpGet(req, res);
-                    break;
-                case "updateProduct":
-                    updateProductGet(req, res);
-                    break;
-            }
-        }
+        processRequest(Optional.ofNullable(req.getParameter("action")), req, res);
     }
 
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        final String action = req.getParameter("action");
-        if (action == null) {
-            // 404?
+        processRequest(Optional.ofNullable(req.getParameter("action")), req, res);
+    }
+
+    private void processRequest(Optional<String> action, HttpServletRequest req, HttpServletResponse res)
+        throws ServletException, IOException {
+        if (!action.isPresent()) {
             index(req, res);
-        } else {
-            switch (action) {
-                case "signUp":
-                    signUpPost(req, res);
-                    break;
-                case "addProduct":
-                    addProductPost(req, res);
-                    break;
-                case "updateProduct":
-                    updateProductPost(req, res);
-                    break;
-            }
+            return;
+        }
+
+        req.setAttribute("action", action.get());
+        switch (action.get()) {
+            case "usersGet":
+                users(req, res);
+                break;
+            case "productsGet":
+                products(req, res);
+                break;
+            case "addProductGet":
+                addProductGet(req, res);
+                break;
+            case "signUpGet":
+                signUpGet(req, res);
+                break;
+            case "updateProductGet":
+                updateProductGet(req, res);
+                break;
+            case "changeColorGet":
+                changeColor(req, res);
+                break;
+            case "signUpPost":
+                signUpPost(req, res);
+                break;
+            case "addProductPost":
+                addProductPost(req, res);
+                break;
+            case "updateProductPost":
+                updateProductPost(req, res);
+                break;
         }
     }
 
+    private Map<String, Cookie> getCookies(HttpServletRequest req) {
+        Cookie[] cookies = req.getCookies();
+        Map<String, Cookie> map = new HashMap<>();
+
+        // If there are cookies
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie != null) {
+                    map.put(cookie.getName(), cookie);
+                }
+            }
+        }
+
+        return map;
+    }
 
     private void index(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         final RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
@@ -209,5 +225,24 @@ public class WebshopServlet extends HttpServlet {
         shopService.updateProduct(product);
 
         products(req, res);
+    }
+
+    private void changeColor(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        // Get the current color cookie. If it does not exist, it is yellow
+        Map<String, Cookie> cookies = getCookies(req);
+        Cookie colorCookie = cookies.getOrDefault("color", new Cookie("color", "yellow"));
+
+        // Revert it values
+        if (colorCookie.getValue().equals("yellow")) {
+            colorCookie.setValue("red");
+        } else {
+            colorCookie.setValue("yellow");
+        }
+        // Add it to the response
+        res.addCookie(colorCookie);
+
+        // old location
+        Optional<String> oldAction = Optional.ofNullable(req.getParameter("oldAction"));
+        processRequest(oldAction, req, res);
     }
 }

@@ -12,47 +12,47 @@
             <c:when test="${param.page.toLowerCase().equals('home')}">
                 <ul>
                     <li id="actual"><a href="Controller">Home</a></li>
-                    <li><a href="Controller?action=users">Users</a></li>
-                    <li><a href="Controller?action=products">Products</a></li>
-                    <li><a href="Controller?action=addProduct">Add Product</a></li>
-                    <li><a href="Controller?action=signUp">Sign up</a></li>
+                    <li><a href="Controller?action=usersGet">Users</a></li>
+                    <li><a href="Controller?action=productsGet">Products</a></li>
+                    <li><a href="Controller?action=addProductGet">Add Product</a></li>
+                    <li><a href="Controller?action=signUpGet">Sign up</a></li>
                 </ul>
             </c:when>
             <c:when test="${param.page.toLowerCase().equals('user overview')}">
                 <ul>
                     <li><a href="Controller">Home</a></li>
-                    <li id="actual"><a href="Controller?action=users">Users</a></li>
-                    <li><a href="Controller?action=products">Products</a></li>
-                    <li><a href="Controller?action=addProduct">Add Product</a></li>
-                    <li><a href="Controller?action=signUp">Sign up</a></li>
+                    <li id="actual"><a href="Controller?action=usersGet">Users</a></li>
+                    <li><a href="Controller?action=productsGet">Products</a></li>
+                    <li><a href="Controller?action=addProductGet">Add Product</a></li>
+                    <li><a href="Controller?action=signUpGet">Sign up</a></li>
                 </ul>
             </c:when>
             <c:when test="${param.page.toLowerCase().equals('product overview')
                             || param.page.toLowerCase().equals('update product')}">
                 <ul>
                     <li><a href="Controller">Home</a></li>
-                    <li><a href="Controller?action=users">Users</a></li>
-                    <li id="actual"><a href="Controller?action=products">Products</a></li>
-                    <li><a href="Controller?action=addProduct">Add Product</a></li>
-                    <li><a href="Controller?action=signUp">Sign up</a></li>
+                    <li><a href="Controller?action=usersGet">Users</a></li>
+                    <li id="actual"><a href="Controller?action=productsGet">Products</a></li>
+                    <li><a href="Controller?action=addProductGet">Add Product</a></li>
+                    <li><a href="Controller?action=signUpGet">Sign up</a></li>
                 </ul>
             </c:when>
             <c:when test="${param.page.toLowerCase().equals('add product')}">
                 <ul>
                     <li><a href="Controller">Home</a></li>
-                    <li><a href="Controller?action=users">Users</a></li>
-                    <li><a href="Controller?action=products">Products</a></li>
-                    <li id="actual"><a href="Controller?action=addProduct">Add Product</a></li>
-                    <li><a href="Controller?action=signUp">Sign up</a></li>
+                    <li><a href="Controller?action=usersGet">Users</a></li>
+                    <li><a href="Controller?action=productsGet">Products</a></li>
+                    <li id="actual"><a href="Controller?action=addProductGet">Add Product</a></li>
+                    <li><a href="Controller?action=signUpGet">Sign up</a></li>
                 </ul>
             </c:when>
             <c:when test="${param.page.toLowerCase().equals('sign up')}">
                 <ul>
                     <li><a href="Controller">Home</a></li>
-                    <li><a href="Controller?action=users">Users</a></li>
-                    <li><a href="Controller?action=products">Products</a></li>
-                    <li><a href="Controller?action=addProduct">Add Product</a></li>
-                    <li id="actual"><a href="Controller?action=signUp">Sign up</a></li>
+                    <li><a href="Controller?action=usersGet">Users</a></li>
+                    <li><a href="Controller?action=productsGet">Products</a></li>
+                    <li><a href="Controller?action=addProductGet">Add Product</a></li>
+                    <li id="actual"><a href="Controller?action=signUpGet">Sign up</a></li>
                 </ul>
             </c:when>
         </c:choose>

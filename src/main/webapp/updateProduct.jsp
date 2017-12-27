@@ -12,7 +12,7 @@
         <jsp:param name="page" value="Update Product"/>
     </jsp:include>
     <main>
-        <form method="post" action="Controller?action=updateProduct" novalidate="novalidate">
+        <form method="post" action="Controller?action=updateProductPost" novalidate="novalidate">
             <input type="hidden" name="id" value="<c:out value="${product.id}"/>"/>
             <p>
                 <label for="name">Name</label>
@@ -34,7 +34,6 @@
         </form>
     </main>
     <jsp:include page="__includes/footer.jsp"/>
-
 </div>
 </body>
 </html>

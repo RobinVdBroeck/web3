@@ -6,6 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
@@ -42,9 +43,9 @@ public class ProductTest {
         addProductPage.setProduct(product);
         addProductPage.submit();
 
+        // We are allready at the Product Overview Page because of the redirect
         String title = driver.getTitle();
         assertEquals("Product Overview", title);
-
         final ProductOverviewPage productOverviewPage = new ProductOverviewPage(driver);
         List<Product> productList = productOverviewPage.getTable();
 

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <jsp:include page="__includes/head.jsp">
-    <jsp:param name="title" value="Product Overview"/>
+    <jsp:param name="title" value="Add Product"/>
 </jsp:include>
 <body>
 <div id="container">
@@ -21,7 +21,7 @@
             </div>
         </c:if>
 
-        <form method="post" action="Controller?action=addProduct" novalidate="novalidate">
+        <form method="post" action="Controller?action=addProductPost" novalidate="novalidate">
             <p>
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name" value="<c:out value="${name}"/>" required/>

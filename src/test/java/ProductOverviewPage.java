@@ -10,10 +10,13 @@ import java.util.stream.Collectors;
 
 public class ProductOverviewPage {
     private final WebDriver driver;
-    private static final String url = Util.baseUrl + "Controller?action=products";
+    public static final String url = Util.baseUrl + "Controller?action=productsGet";
 
     public ProductOverviewPage(WebDriver driver) {
         this.driver = driver;
+    }
+
+    public void open() {
         driver.get(url);
     }
 
@@ -35,11 +38,10 @@ public class ProductOverviewPage {
                 String url = columns.get(0).findElement(By.cssSelector("a")).getAttribute("href");
                 Pattern idPattern = Pattern.compile(".id=(\\d+)$");
                 Matcher idMatcher = idPattern.matcher(url);
-                if(idMatcher.find()) {
+                if (idMatcher.find()) {
                     String id = idMatcher.group(1);
                     product.setId(Integer.parseInt(id, 10));
-                }
-                else {
+                } else {
                     throw new RuntimeException("Could not find id in url " + url);
                 }
 

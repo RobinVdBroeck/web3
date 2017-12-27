@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class AddProductPage {
     private final WebDriver driver;
-    private static final String url = Util.baseUrl + "Controller?action=addProduct";
+    private static final String url = Util.baseUrl + "Controller?action=addProductGet";
 
     public AddProductPage(WebDriver driver) {
         this.driver = driver;

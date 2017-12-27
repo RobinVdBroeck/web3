@@ -3,10 +3,15 @@ import org.openqa.selenium.WebDriver;
 
 public class UpdateProductPage {
     private final WebDriver driver;
-    private static final String url = Util.baseUrl + "Controller?action=updateProduct&productId=";
+    private int id;
+    private static final String url = Util.baseUrl + "Controller?action=updateProductGet&id=";
 
     public UpdateProductPage(WebDriver driver, int id) {
         this.driver = driver;
+        this.id = id;
+    }
+
+    public void open() {
         driver.get(url + id);
     }
 

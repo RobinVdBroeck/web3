@@ -23,7 +23,7 @@
             </div>
         </c:if>
 
-        <form method="post" action="" novalidate="novalidate">
+        <form method="post" action="Controller?action=signUpPost" novalidate="novalidate">
             <!-- novalidate in order to be able to run tests correctly -->
             <p>
                 <label for="userid">User id</label>

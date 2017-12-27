@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class SignUpPage {
     private final WebDriver driver;
-    public static final String url = Util.baseUrl + "Controller?action=signUp";
+    public static final String url = Util.baseUrl + "Controller?action=signUpGet";
 
     public SignUpPage(WebDriver driver) {
         this.driver = driver;

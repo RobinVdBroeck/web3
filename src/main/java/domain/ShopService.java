@@ -64,6 +64,10 @@ public class ShopService {
         getProductDb().update(product);
     }
 
+    public void deleteProduct(int id) {
+        getProductDb().delete(id);
+    }
+
     private PersonDatabase getPersonDb() {
         return personDb;
     }

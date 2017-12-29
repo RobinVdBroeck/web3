@@ -17,6 +17,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
+                <th>Delete</th>
             </tr>
             <c:forEach var="product" items="${products}">
                 <tr>
@@ -30,6 +31,11 @@
                     </td>
                     <td>
                         <c:out value="${product.price}"/>
+                    </td>
+                    <td>
+                        <a href="Controller?action=deleteProduct&id=<c:out value="${product.id}" />">
+                            Delete
+                        </a>
                     </td>
                 </tr>
             </c:forEach>

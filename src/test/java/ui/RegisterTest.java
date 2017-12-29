@@ -1,5 +1,6 @@
 package ui;
 
+import domain.Person;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import org.junit.After;
 import org.junit.Before;
@@ -10,13 +11,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import ui.pages.SignUpPage;
+import ui.pages.UserOverviewPage;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class RegisterTest {
-    private final static String users = "http://localhost:8080/shop-web/Controller?action=users";
     private SignUpPage signUpPage;
 
     private WebDriver driver;
@@ -76,25 +78,32 @@ public class RegisterTest {
     public void testRegisterCorrect() {
         String useridRandom = generateRandomUseridInOrderToRunTestMoreThanOnce("jakke");
 
+        final String firstName = "Jan";
+        final String lastName = "Jansens";
+        final String email = "jan.janssens@hotmail.com";
+
         signUpPage.open();
         signUpPage.setUserId(useridRandom);
-        signUpPage.setFirstName("Jan");
-        signUpPage.setLastName("Jansens");
-        signUpPage.setEmail("jan.janssens@hotmail.com");
+        signUpPage.setFirstName(firstName);
+        signUpPage.setLastName(lastName);
+        signUpPage.setEmail(email);
         signUpPage.setPassword("1234");
         signUpPage.submit();
 
         String title = driver.getTitle();
         assertEquals("Home", title);
 
-        driver.get(users);
+        final UserOverviewPage userOverviewPage = new UserOverviewPage(driver);
+        userOverviewPage.open();
+        List<Person> table = userOverviewPage.getTable();
+        Person found = table.stream()
+            .filter(p -> p.getEmail().equals(email) && p.getFirstName().equals(firstName) && p.getLastName().equals(lastName))
+            .findAny()
+            .get();
+        assertNotNull(found);
 
-        List<WebElement> listItems = driver.findElements(By.cssSelector("table tr"));
-        boolean found = listItems.stream()
-            .map(WebElement::getText)
-            .anyMatch(text -> text.contains("jan.janssens@hotmail.com") && text.contains("Jan Janssens"));
-
-        assertEquals(true, found);
+        // Delete it
+        userOverviewPage.delete(found.getUserid());
     }
 
     @Test
@@ -183,6 +192,11 @@ public class RegisterTest {
             password,
             "User already exists"
         );
+
+        // Delete the user
+        final UserOverviewPage userOverviewPage = new UserOverviewPage(driver);
+        userOverviewPage.open();
+        userOverviewPage.delete(userId);
     }
 
     @Test

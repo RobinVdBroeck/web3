@@ -36,7 +36,9 @@ public class LoginTest {
 
     @After
     public void clean() {
-        // deleteUser(useridRandom);
+        final UserOverviewPage userOverviewPage = new UserOverviewPage(driver);
+        userOverviewPage.open();
+        userOverviewPage.delete(useridRandom);
         driver.quit();
     }
 
@@ -57,20 +59,6 @@ public class LoginTest {
         signUpPage.setEmail("jan.janssens@hotmail.com");
         signUpPage.setPassword(password);
         signUpPage.submit();
-    }
-
-    private void deleteUser(String userid) {
-        throw new NotImplementedException("Not implemented user deletion yet");
-        /*
-        // delete test user
-        driver.get(url + "?action=overview");
-        String cssSelector = "a[href*='deletePerson&userId=" + userid + "']";
-        WebElement link = driver.findElement(By.cssSelector(cssSelector));
-        link.click();
-
-        WebElement deleteButtonConfirm = driver.findElement(By.cssSelector("input[type='submit'"));
-        deleteButtonConfirm.click();
-        */
     }
 
 
@@ -109,5 +97,4 @@ public class LoginTest {
         assertTrue(findTextWelcome());
         assertNotNull(driver.findElement(By.id("logoutNav")));
     }
-
 }

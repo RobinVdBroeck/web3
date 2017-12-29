@@ -8,11 +8,9 @@ import java.util.Map;
 import domain.Person;
 
 public class PersonDatabaseInMemory implements PersonDatabase {
-    private Map<String, Person> persons = new HashMap<String, Person>();
+    private Map<String, Person> persons = new HashMap<>();
 
     public PersonDatabaseInMemory() {
-        Person administrator = new Person("admin", "admin@ucll.be", "t", "Ad", "Ministrator");
-        add(administrator);
     }
 
     @Override

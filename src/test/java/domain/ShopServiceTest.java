@@ -7,13 +7,14 @@ import org.junit.Test;
 
 
 public class ShopServiceTest {
-    private static ShopService service = new ShopService();
+    private ShopService service;
     private Person person;
     private String userid;
     private final String password = "1234";
 
     @Before
     public void setUp() {
+        service = new ShopService();
         userid = generateRandomUseridInOrderToRunTestMoreThanOnce("sinterklaas");
         person = new Person(userid, "klaas@klaas.be", password, "Klaas", "Claesens");
     }

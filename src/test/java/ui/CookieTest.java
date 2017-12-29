@@ -12,6 +12,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import ui.pages.AddProductPage;
 import ui.pages.ProductOverviewPage;
 import ui.pages.UpdateProductPage;
 import ui.pages.UserOverviewPage;
@@ -79,6 +80,11 @@ public class CookieTest {
 
     @Test
     public void testSwitchColorAfterUpdateProductCorrect() {
+        final AddProductPage addProductPage = new AddProductPage(driver);
+        addProductPage.open();
+        addProductPage.setProduct(new Product("Book", "Book", 5.0));
+        addProductPage.submit();
+
         final ProductOverviewPage productOverviewPage = new ProductOverviewPage(driver);
         productOverviewPage.open();
 
@@ -94,8 +100,12 @@ public class CookieTest {
         // Change the color
         final WebElement changeColorLink = driver.findElement(By.id("changeColorLink"));
         changeColorLink.click();
-        assertEquals("Product Overview", driver.getTitle());
+        assertEquals("Update Product", driver.getTitle());
 
-        checkColorFooter("Product Overview");
+        checkColorFooter("Update Product");
+
+        // Delete the product we created at the start of the test
+        productOverviewPage.open();
+        productOverviewPage.deleteProduct(product.get().getId());
     }
 }

@@ -15,7 +15,7 @@
     <main>
         <c:if test="${sessionScope.containsKey('loggedInUser')}">
             <p>
-                Welcome, ${sessionScope.loggedInUser.userid}.
+                Welcome, ${sessionScope.loggedInUser.firstName}.
             </p>
         </c:if>
         <p>

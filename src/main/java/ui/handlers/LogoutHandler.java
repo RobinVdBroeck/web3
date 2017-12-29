@@ -1,4 +1,4 @@
-package ui;
+package ui.handlers;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

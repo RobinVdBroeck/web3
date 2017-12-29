@@ -1,6 +1,4 @@
-package ui;
-
-import domain.ShopService;
+package ui.handlers;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

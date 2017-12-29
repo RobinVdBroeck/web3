@@ -1,4 +1,4 @@
-package ui;
+package ui.handlers;
 
 import domain.ShopService;
 

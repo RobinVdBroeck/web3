@@ -1,4 +1,6 @@
-package ui;
+package ui.handlers;
+
+import ui.HandleFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;

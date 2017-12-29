@@ -3,6 +3,7 @@ package ui;
 import db.DbException;
 import domain.DomainException;
 import domain.ShopService;
+import ui.handlers.RequestHandler;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;

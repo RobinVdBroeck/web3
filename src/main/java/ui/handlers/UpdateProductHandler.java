@@ -1,7 +1,8 @@
-package ui;
+package ui.handlers;
 
 import domain.Product;
 import domain.ShopService;
+import ui.HandleFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

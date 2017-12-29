@@ -33,7 +33,8 @@
                         <c:out value="${product.price}"/>
                     </td>
                     <td>
-                        <a href="Controller?action=deleteProduct&id=<c:out value="${product.id}" />">
+                        <a href="Controller?action=deleteProduct&id=<c:out value="${product.id}" />"
+                           id="delete-<c:out value="${product.id}" />">
                             Delete
                         </a>
                     </td>

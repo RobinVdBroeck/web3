@@ -15,6 +15,7 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class ProductTest {
     private WebDriver driver;
@@ -52,10 +53,13 @@ public class ProductTest {
         assertEquals("Product Overview", title);
         final ProductOverviewPage productOverviewPage = new ProductOverviewPage(driver);
         List<Product> productList = productOverviewPage.getTable();
+        Product found = productList.stream()
+            .filter(p -> p.equals(product))
+            .findAny()
+            .get();
+        assertNotNull(found);
 
-        boolean found = productList.contains(product);
-
-        assertTrue(found);
+        productOverviewPage.deleteProduct(found.getId());
     }
 
     @Test

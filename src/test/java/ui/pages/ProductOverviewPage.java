@@ -52,4 +52,9 @@ public class ProductOverviewPage {
             })
             .collect(Collectors.toList());
     }
+
+    public void deleteProduct(int id) {
+        WebElement element = driver.findElement(By.id("delete-" + id));
+        element.click();
+    }
 }

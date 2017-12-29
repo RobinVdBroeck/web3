@@ -18,6 +18,7 @@
                 <th>E-mail</th>
                 <th>First Name</th>
                 <th>Last Name</th>
+                <th>Delete</th>
             </tr>
             <c:forEach var="user" items="${users}">
                 <tr>
@@ -29,6 +30,11 @@
                     </td>
                     <td>
                         <c:out value="${user.lastName}"/>
+                    </td>
+                    <td>
+                        <a href="Controller?action=deleteUser&id=<c:out value="${user.userid}" />">
+                            Delete
+                        </a>
                     </td>
                 </tr>
             </c:forEach>

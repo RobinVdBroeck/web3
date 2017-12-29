@@ -15,6 +15,7 @@ public class HandleFactory {
 
         // User pages
         handlers.put("usersGet", new UsersOverviewHandler(service));
+        handlers.put("deleteUser", new DeleteUserHandler(service));
         handlers.put("signUpGet", new SignUpFormHandler());
         handlers.put("signUpPost", new SignUpHandler(service, this));
         handlers.put("loginGet", new LoginFormHandler());

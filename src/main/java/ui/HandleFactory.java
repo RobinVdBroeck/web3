@@ -41,7 +41,7 @@ public class HandleFactory {
         if (action == null) {
             return handlers.get("indexGet");
         }
-        if(!handlers.containsKey(action)) {
+        if (!handlers.containsKey(action)) {
             System.out.println("Action not found: " + action);
             return handlers.get("indexGet");
         }

@@ -74,11 +74,7 @@ public class WebshopServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         String action = request.getParameter("action");
-        if (action == null) {
-            action = "indexGet";
-        }
-        request.setAttribute("action", action);
-
+        // HandleFactory handles cases where action is null
         RequestHandler requestHandler = handleFactory.getHandler(action);
         requestHandler.handleRequest(request, response);
     }

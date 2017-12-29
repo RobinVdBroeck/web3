@@ -41,9 +41,7 @@ public class ChangeColorHandler implements RequestHandler {
         response.addCookie(colorCookie);
 
         // old location
-        final String oldAction = request.getParameter("oldAction");
-        RequestHandler handler =  handleFactory.getHandler(oldAction);
-        handler.handleRequest(request, response);
-
+        final String referer = request.getHeader("Referer");
+        response.sendRedirect(referer);
     }
 }

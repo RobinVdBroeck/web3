@@ -25,6 +25,7 @@ public class HandleFactory {
         // Product pages
         handlers.put("productsGet", new ProductsOverviewHandler(service));
         handlers.put("addProductGet", new AddProductFormHandler());
+        handlers.put("addProductPost", new AddProductHandler(service, this));
         handlers.put("updateProductGet", new UpdateProductFormHandler(service));
         handlers.put("updateProductPost", new UpdateProductHandler(service, this));
         handlers.put("deleteProduct", new DeleteProductHandler(service));

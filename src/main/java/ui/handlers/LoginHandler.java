@@ -3,6 +3,7 @@ package ui.handlers;
 import db.DbException;
 import domain.DomainException;
 import domain.Person;
+import domain.RolesUtility;
 import domain.ShopService;
 import ui.HandleFactory;
 
@@ -35,10 +36,14 @@ public class LoginHandler implements RequestHandler {
             session.setAttribute("loggedInUser", person);
             response.sendRedirect("Controller?action=indexGet");
         } catch (DbException | DomainException e) {
+            System.out.println(e);
             request.setAttribute("error", "Username and password do not match");
             request.setAttribute("userid", userId);
             request.setAttribute("password", password);
-            RequestHandler handler = handleFactory.getHandler("loginGet");
+            RequestHandler handler = handleFactory.getHandler(
+                "loginGet",
+                RolesUtility.getRoles(request)
+            );
             handler.handleRequest(request, response);
         }
     }

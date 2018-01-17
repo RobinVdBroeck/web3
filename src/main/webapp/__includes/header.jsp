@@ -17,33 +17,41 @@
                 <a href="Controller" id="homeNav">Home</a>
             </li>
 
+
             <!-- Users -->
-            <li
-                    <c:if test="${param.page.toLowerCase().equals('user overview')}">
-                        id="actual"
-                    </c:if>
-            >
-                <a href="Controller?action=usersGet" id="usersNav">Users</a>
-            </li>
+            <c:if test="${sessionScope.containsKey('loggedInUser') && sessionScope.loggedInUser.isAdministrator() }">
+                <li
+                        <c:if test="${param.page.toLowerCase().equals('user overview')}">
+                            id="actual"
+                        </c:if>
+                >
+                    <a href="Controller?action=usersGet" id="usersNav">Users</a>
+                </li>
+            </c:if>
 
             <!-- Products -->
-            <li
-                    <c:if test="${param.page.toLowerCase().equals('product overview')
+            <c:if test="${sessionScope.containsKey('loggedInUser') && sessionScope.loggedInUser.isUser()}">
+
+                <li
+                        <c:if test="${param.page.toLowerCase().equals('product overview')
                             || param.page.toLowerCase().equals('update product')}">
-                        id="actual"
-                    </c:if>
-            >
-                <a href="Controller?action=productsGet" id="productsNav">Products</a>
-            </li>
+                            id="actual"
+                        </c:if>
+                >
+                    <a href="Controller?action=productsGet" id="productsNav">Products</a>
+                </li>
+            </c:if>
 
             <!-- Add Product -->
-            <li
-                    <c:if test="${param.page.toLowerCase().equals('add product')}">
-                        id="actual"
-                    </c:if>
-            >
-                <a href="Controller?action=addProductGet" id="addProductNav">Add Product</a>
-            </li>
+            <c:if test="${sessionScope.containsKey('loggedInUser') && sessionScope.loggedInUser.isAdministrator()}">
+                <li
+                        <c:if test="${param.page.toLowerCase().equals('add product')}">
+                            id="actual"
+                        </c:if>
+                >
+                    <a href="Controller?action=addProductGet" id="addProductNav">Add Product</a>
+                </li>
+            </c:if>
 
             <jsp:include page="loginHeader.jsp">
                 <jsp:param name="page" value="${param.page}"/>

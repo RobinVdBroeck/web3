@@ -1,15 +1,15 @@
 package ui.handlers;
 
+import com.google.common.collect.ImmutableSet;
 import db.DbException;
-import domain.DomainException;
-import domain.Product;
-import domain.ShopService;
+import domain.*;
 import ui.HandleFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Set;
 
 public class AddProductHandler implements RequestHandler {
     private final ShopService service;
@@ -39,8 +39,16 @@ public class AddProductHandler implements RequestHandler {
             request.setAttribute("name", name);
             request.setAttribute("description", description);
             request.setAttribute("price", priceString);
-            RequestHandler addProductGetHandler = factory.getHandler("addProductGet");
+            RequestHandler addProductGetHandler = factory.getHandler(
+                "addProductGet",
+                RolesUtility.getRoles(request)
+            );
             addProductGetHandler.handleRequest(request, response);
         }
+    }
+
+    @Override
+    public Set<Role> getRoles() {
+        return ImmutableSet.of(Role.Administrator);
     }
 }

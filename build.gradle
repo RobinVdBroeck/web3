@@ -20,6 +20,7 @@ dependencies {
     compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
     compile group: 'javax', name: 'javaee-api', version: '7.0'
     compile group: 'jstl', name: 'jstl', version: '1.2'
+    compile group: 'com.google.guava', name: 'guava', version: '23.6-jre'
     testCompile 'junit:junit:4.12'
     testCompile 'io.github.bonigarcia:webdrivermanager:2.0.1'
     testCompile group: 'io.github.bonigarcia', name: 'selenium-jupiter', version: '1.1.0'

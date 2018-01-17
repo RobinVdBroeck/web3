@@ -2,6 +2,8 @@ package ui.handlers;
 
 import db.DbException;
 import domain.Person;
+import domain.Role;
+import domain.RolesUtility;
 import domain.ShopService;
 import ui.HandleFactory;
 
@@ -30,6 +32,7 @@ public class SignUpHandler implements RequestHandler {
 
         try {
             final Person newUser = new Person(userid, email, password, firstName, lastName);
+            newUser.addRole(Role.User);
             service.addPerson(newUser);
             HttpSession session = request.getSession();
             session.setAttribute("loggedInUser", newUser);
@@ -41,7 +44,10 @@ public class SignUpHandler implements RequestHandler {
             request.setAttribute("password", password);
             request.setAttribute("firstName", firstName);
             request.setAttribute("lastName", lastName);
-            RequestHandler handler = handleFactory.getHandler("signUpGet");
+            RequestHandler handler = handleFactory.getHandler(
+                "signUpGet",
+                RolesUtility.getRoles(request)
+            );
             handler.handleRequest(request, response);
         }
     }

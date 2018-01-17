@@ -1,6 +1,8 @@
 package ui.handlers;
 
+import com.google.common.collect.ImmutableSet;
 import domain.Person;
+import domain.Role;
 import domain.ShopService;
 
 import javax.servlet.RequestDispatcher;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 public class UsersOverviewHandler implements RequestHandler {
     private final ShopService service;
@@ -28,4 +31,8 @@ public class UsersOverviewHandler implements RequestHandler {
         dispatcher.forward(request, response);
     }
 
+    @Override
+    public Set<Role> getRoles() {
+        return ImmutableSet.of(Role.Administrator);
+    }
 }

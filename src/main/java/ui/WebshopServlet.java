@@ -1,19 +1,22 @@
 package ui;
 
 import db.DbException;
-import domain.DomainException;
-import domain.ShopService;
+import domain.*;
 import ui.handlers.RequestHandler;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
 
 @WebServlet("/Controller")
 public class WebshopServlet extends HttpServlet {
@@ -50,6 +53,19 @@ public class WebshopServlet extends HttpServlet {
 
         // Create the handleFactory
         handleFactory = new HandleFactory(shopService);
+
+        // If empty, create admin account
+        if (shopService.getPersons().size() == 0) {
+            Person admin = new Person();
+            admin.setUserid("admin");
+            admin.setFirstName("Robin");
+            admin.setLastName("Van den Broeck");
+            admin.setEmail("robin.vandenbroeck@student.ucll.be");
+            admin.setPassword("pass", false);
+            admin.addRole(Role.User);
+            admin.addRole(Role.Administrator);
+            shopService.addPerson(admin);
+        }
     }
 
     @Override
@@ -76,7 +92,10 @@ public class WebshopServlet extends HttpServlet {
         throws ServletException, IOException {
         String action = request.getParameter("action");
         // HandleFactory handles cases where action is null
-        RequestHandler requestHandler = handleFactory.getHandler(action);
+        RequestHandler requestHandler = handleFactory.getHandler(
+            action,
+            RolesUtility.getRoles(request)
+        );
         requestHandler.handleRequest(request, response);
     }
 }

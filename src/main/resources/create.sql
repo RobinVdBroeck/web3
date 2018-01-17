@@ -1,9 +1,12 @@
+CREATE TYPE ROLE_ENUM AS ENUM ('User', 'Administrator');
+
 CREATE TABLE person (
   user_id    CHARACTER VARYING(20) PRIMARY KEY,
   email      CHARACTER VARYING(100) NOT NULL,
   password   CHARACTER(128)         NOT NULL,
   first_name CHARACTER VARYING(20)  NOT NULL,
-  last_name  CHARACTER VARYING(30)  NOT NULL
+  last_name  CHARACTER VARYING(30)  NOT NULL,
+  roles      ROLE_ENUM []           NOT NULL
 );
 
 CREATE TABLE product (

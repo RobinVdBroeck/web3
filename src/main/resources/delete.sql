@@ -1,2 +1,3 @@
 DROP TABLE product;
 DROP TABLE person;
+DROP TYPE ROLE_ENUM;

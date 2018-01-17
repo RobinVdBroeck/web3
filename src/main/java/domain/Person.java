@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +18,7 @@ public class Person {
     private String password;
     private String firstName;
     private String lastName;
+    private Set<Role> roles = new HashSet<>();
 
     public Person(String userid, String email, String password, String firstName, String lastName) {
         setUserid(userid);
@@ -44,7 +47,7 @@ public class Person {
             throw new IllegalArgumentException("No email given");
         }
         String USERID_PATTERN =
-            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+            "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         Pattern p = Pattern.compile(USERID_PATTERN);
         Matcher m = p.matcher(email);
@@ -68,6 +71,7 @@ public class Person {
 
     /**
      * Check if it's the same password
+     *
      * @param password plaintext password (it get's hashed in the function)
      * @return Do the passwords match
      */
@@ -85,22 +89,25 @@ public class Person {
 
     /**
      * Set a password
+     *
      * @param password The password
-     * @param hashed Is the password hashed
+     * @param hashed   Is the password hashed
      */
     public void setPassword(String password, boolean hashed) {
         if (password.isEmpty()) {
             throw new IllegalArgumentException("No password given");
         }
 
-        if(!hashed) {
+        if (!hashed) {
             password = hash(password);
         }
 
         this.password = password;
     }
+
     /**
-     * Set a plaintext password
+     * Set a plaintext password. It get's hashed before it's set in the object
+     *
      * @param password a plaintext version of the password
      */
     public void setPassword(String password) {
@@ -127,6 +134,22 @@ public class Person {
             throw new IllegalArgumentException("No last name given");
         }
         this.lastName = lastName;
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public boolean isUser() {
+        return roles.contains(Role.User);
+    }
+
+    public boolean isAdministrator() {
+        return roles.contains(Role.Administrator);
     }
 
     @Override

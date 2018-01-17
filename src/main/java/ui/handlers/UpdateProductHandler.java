@@ -1,25 +1,24 @@
 package ui.handlers;
 
+import com.google.common.collect.ImmutableSet;
 import domain.Product;
+import domain.Role;
 import domain.ShopService;
-import ui.HandleFactory;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Set;
 
 public class UpdateProductHandler implements RequestHandler {
     private final ShopService service;
-    private final HandleFactory handleFactory;
 
-    public UpdateProductHandler(ShopService service, HandleFactory handleFactory) {
+    public UpdateProductHandler(ShopService service) {
         this.service = service;
-        this.handleFactory = handleFactory;
     }
 
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         final String name = request.getParameter("name");
         final String description = request.getParameter("description");
         final String priceString = request.getParameter("price");
@@ -33,5 +32,10 @@ public class UpdateProductHandler implements RequestHandler {
         service.updateProduct(product);
 
         response.sendRedirect("Controller?action=productsGet");
+    }
+
+    @Override
+    public Set<Role> getRoles() {
+        return ImmutableSet.of(Role.User);
     }
 }
